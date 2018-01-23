@@ -9,7 +9,8 @@ import {
     KeyboardAvoidingView,
     Keyboard,
     Alert,
-    AsyncStorage
+    AsyncStorage,
+    NetInfo
 } from 'react-native';
 import Modal from 'react-native-modal'
 import Dimensions from 'Dimensions';
@@ -41,33 +42,62 @@ export default class SignupSection extends Component {
             check: true,
             success: null,
         }
+
+        this.mang = false;
+
+        NetInfo.isConnected.fetch().then(isConnected => {
+            // console.log('First, is ' + (isConnected ? 'online' : 'offline'));
+            console.log("nnnn1",isConnected);
+            this.mang = isConnected;
+            console.log("network1",this.mang);
+        });
+        function handleFirstConnectivityChange(isConnected) {
+            // console.log('Then, is ' + (isConnected ? 'online' : 'offline'));
+            console.log("nnnn2",isConnected);
+            this.mang = isConnected;
+            this.a = 1;
+            console.log("network2",this.mang);
+            NetInfo.isConnected.removeEventListener(
+                'connectionChange',
+                handleFirstConnectivityChange
+            );
+        }
+
+        NetInfo.isConnected.addEventListener(
+            'connectionChange',
+            handleFirstConnectivityChange.bind(this)
+        );
     }
 
     async _resetPassword(){
         Keyboard.dismiss();
-        try{
-            const response = await fetch(URL+ URL_FORGOT, {
-                method: 'POST',
-                headers: {
-                    'Accept': 'application/json, text/plain, */*',
-                    'Content-Type': 'text/plain',
-                },
-                body: this.state.name
-            })
-            if (response.status===400){
-                this.setState({
-                    check: false
-                });
+        if(this.mang == true) {
+            try {
+                const response = await fetch(URL + URL_FORGOT, {
+                    method: 'POST',
+                    headers: {
+                        'Accept': 'application/json, text/plain, */*',
+                        'Content-Type': 'text/plain',
+                    },
+                    body: this.state.name
+                })
+                if (response.status === 400) {
+                    this.setState({
+                        check: false
+                    });
+                }
+                if (response.status === 200) {
+                    this.setState({
+                        check: true,
+                        success: true,
+                    });
+                    this._notification()
+                }
+            } catch (err) {
+                console.log(err + "")
             }
-            if(response.status===200){
-                this.setState({
-                    check: true,
-                    success: true,
-                });
-                this._notification()
-            }
-        }catch (err){
-            console.log(err+"")
+        }else {
+            alert("Network request failed")
         }
 
     }

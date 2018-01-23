@@ -63,7 +63,7 @@ export default class ViewMap extends Component {
                 this.getPlaces()
             },
             error => {
-                alert(error);
+                console.log(error);
             }
         );
     }
@@ -83,7 +83,7 @@ export default class ViewMap extends Component {
                 this.getDirections(this.state.region.latitude + "," + this.state.region.longitude, this.state.destination.latitude + "," + this.state.destination.longitude)
             },
             error => {
-                alert(error);
+                console.log(error);
             }
         );
     }

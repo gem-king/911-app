@@ -37,6 +37,31 @@ export default class Login extends Component {
             invalid: false,
             noaccount: false
         }
+
+        this.mang = false;
+
+        NetInfo.isConnected.fetch().then(isConnected => {
+            // console.log('First, is ' + (isConnected ? 'online' : 'offline'));
+            console.log("nnnn1",isConnected);
+            this.mang = isConnected;
+            console.log("network1",this.mang);
+        });
+        function handleFirstConnectivityChange(isConnected) {
+            // console.log('Then, is ' + (isConnected ? 'online' : 'offline'));
+            console.log("nnnn2",isConnected);
+            this.mang = isConnected;
+            this.a = 1;
+            console.log("network2",this.mang);
+            NetInfo.isConnected.removeEventListener(
+                'connectionChange',
+                handleFirstConnectivityChange
+            );
+        }
+
+        NetInfo.isConnected.addEventListener(
+            'connectionChange',
+            handleFirstConnectivityChange.bind(this)
+        );
         this._onPress = this._onPress.bind(this);
     }
 
@@ -46,102 +71,104 @@ export default class Login extends Component {
 
     _onPress() {
         Keyboard.dismiss();
-        this.setState({
-            isLoading: true
-        });
+        if(this.mang == true){
+            this.setState({
+                isLoading: true
+            });
+            fetch(URL + URL_LOGIN, {
+                method: 'POST',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
 
-        NetInfo.isConnected.fetch().done((isConnected) => {
-            if ( isConnected )
-            {
-                fetch(URL + URL_LOGIN, {
-                    method: 'POST',
-                    headers: {
-                        'Accept': 'application/json',
-                        'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    username: this.state.email,
+                    password: this.state.pass,
+                    rememberMe: true
 
-                    },
-                    body: JSON.stringify({
-                        username: this.state.email,
-                        password: this.state.pass,
-                        rememberMe: true
-
+                })
+            }).then((data) => {
+                if(this.state.email == '' || this.state.pass == ''){
+                    this.setState({
+                        isLoading: false,
+                        alert: true
                     })
-                }).then((data) => {
-                    if(this.state.email == '' || this.state.pass == ''){
+                }else {
+                    this.setState({
+                        alert: false
+                    })
+                    if (data.status === 401 || data.ok === false) {
                         this.setState({
                             isLoading: false,
-                            alert: true
+                            invalid: true
                         })
-                    }else {
-                        this.setState({
-                            alert: false
-                        })
-                        if (data.status === 401 || data.ok === false) {
-                            this.setState({
-                                isLoading: false,
-                                invalid: true
+                    }
+                    else {
+                        AsyncStorage.setItem(
+                            'token', data.headers.get("authorization"),
+                        );
+
+                        AsyncStorage.setItem('pass', this.state.pass);
+
+                        AsyncStorage.getItem('token').then((value) => {
+                            console.log("token",value);
+                            fetch(URL + URL_ACOUNT, {
+                                method: "GET",
+                                headers: {
+                                    'Authorization': value,
+                                }
                             })
-                        }
-                        else {
-                            AsyncStorage.setItem(
-                                'token', data.headers.get("authorization"),
-                            );
+                                .then((response) => response.json())
+                                .then((responseData) => {
+                                    console.log('accountLogin', responseData)
+                                    this.setState({
+                                        dataSource: responseData,
+                                    })
+                                    console.log("state",this.state.dataSource);
 
-                            AsyncStorage.setItem('pass', this.state.pass);
+                                    let a = JSON.stringify(this.state.dataSource.authorities);
+                                    console.log("state2",a.indexOf("ROLE_INTERPRETER"));
 
-                            AsyncStorage.getItem('token').then((value) => {
-                                fetch(URL + URL_ACOUNT, {
-                                    method: "GET",
-                                    headers: {
-                                        'Authorization': value,
+                                    if(a.indexOf("ROLE_INTERPRETER") > -1){
+                                        let key = this.props.navigation.state.params.key;
+                                        if (key === 'logout') {
+                                            const resetAction = NavigationActions.reset({
+                                                index: 0,
+                                                actions: [
+                                                    NavigationActions.navigate({routeName: 'Tab'})
+                                                ]
+                                            });
+                                            this.props.navigation.dispatch(resetAction)
+                                        } else {
+                                            const resetAction = NavigationActions.reset({
+                                                index: 0,
+                                                actions: [
+                                                    NavigationActions.navigate({routeName: 'SideMenu'})
+                                                ]
+                                            });
+                                            this.props.navigation.dispatch(resetAction)
+                                        }
+                                    }else{
+                                        this.setState({
+                                            noaccount: true,
+                                            isLoading: false
+                                        })
+                                        AsyncStorage.removeItem('token');
                                     }
                                 })
-                                    .then((response) => response.json())
-                                    .then((responseData) => {
-                                        console.log('accountLogin', responseData)
-                                        this.setState({
-                                            dataSource: responseData,
-                                        })
-                                        if(JSON.stringify(this.state.dataSource.authorities).contains("ROLE_INTERPRETER")){
-                                            let key = this.props.navigation.state.params.key;
-                                            if (key === 'logout') {
-                                                const resetAction = NavigationActions.reset({
-                                                    index: 0,
-                                                    actions: [
-                                                        NavigationActions.navigate({routeName: 'Tab'})
-                                                    ]
-                                                });
-                                                this.props.navigation.dispatch(resetAction)
-                                            } else {
-                                                const resetAction = NavigationActions.reset({
-                                                    index: 0,
-                                                    actions: [
-                                                        NavigationActions.navigate({routeName: 'SideMenu'})
-                                                    ]
-                                                });
-                                                this.props.navigation.dispatch(resetAction)
-                                            }
-                                        }else{
-                                            this.setState({
-                                                noaccount: true,
-                                                isLoading: false
-                                            })
-                                            AsyncStorage.removeItem('token');
-                                        }
-                                    })
-                            });
+                        });
 
-                        }
                     }
-                }).catch((erro) => {
-                    console.log(erro);
-                })
-            }
-            else
-            {
-                alert("Network request failed")
-            }
-        });
+                }
+            }).catch((erro) => {
+                console.log(erro);
+            })
+        }
+        else
+        {
+            alert("Network request failed")
+        }
     }
 
     getEmail = (email) => {
