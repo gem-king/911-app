@@ -213,7 +213,7 @@ export default class SignupSection extends Component {
                             </TouchableOpacity>
                             <TouchableHighlight
                                 activeOpacity={1}
-                                onPress={() => this.setState({isModalVisible: false})}
+                                onPress={() => this.setState({isModalVisible: false, success: null, check: true})}
                                 style={this.state.pressStatus ? styles.cancel2 : styles.cancel}
                                 onHideUnderlay={this._onHideUnderlay.bind(this)}
                                 onShowUnderlay={this._onShowUnderlay.bind(this)}
