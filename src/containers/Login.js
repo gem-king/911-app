@@ -27,6 +27,8 @@ export default class Login extends Component {
 
     constructor(props) {
         super(props)
+
+        this.mang = false;
         this.state = {
             email: '',
             pass: '',
@@ -35,24 +37,53 @@ export default class Login extends Component {
             isLoading: false,
             alert: false,
             invalid: false,
-            noaccount: false
+            noaccount: false,
         }
-        this._onPress = this._onPress.bind(this);
+        this.test = 0;
+        
+
+        
+        NetInfo.isConnected.fetch().then(isConnected => {
+            // console.log('First, is ' + (isConnected ? 'online' : 'offline'));
+            console.log("nnnn1",isConnected);
+             this.mang = isConnected;
+             console.log("network1",this.mang);
+          });
+          function handleFirstConnectivityChange(isConnected) {
+            // console.log('Then, is ' + (isConnected ? 'online' : 'offline'));
+            console.log("nnnn2",isConnected);
+             this.mang = isConnected;
+             this.a = 1;
+             console.log("network2",this.mang);
+             NetInfo.isConnected.removeEventListener(
+                'connectionChange',
+                handleFirstConnectivityChange
+              );
+          }
+
+          NetInfo.isConnected.addEventListener(
+            'connectionChange',
+            handleFirstConnectivityChange.bind(this)
+          );
+          console.log("network3",this.mang);
+          this._onPress = this._onPress.bind(this);
+          console.log("network4",this.mang);
     }
 
     componentWillMount(){
+
+        
 
     }
 
     _onPress() {
         Keyboard.dismiss();
-        this.setState({
-            isLoading: true
-        });
-
-        NetInfo.isConnected.fetch().done((isConnected) => {
-            if ( isConnected )
-            {
+        console.log("network5",this.mang);
+    
+          if(this.mang){
+            this.setState({
+                isLoading: true
+            });
                 fetch(URL + URL_LOGIN, {
                     method: 'POST',
                     headers: {
@@ -90,6 +121,7 @@ export default class Login extends Component {
                             AsyncStorage.setItem('pass', this.state.pass);
 
                             AsyncStorage.getItem('token').then((value) => {
+                                console.log("token",value);
                                 fetch(URL + URL_ACOUNT, {
                                     method: "GET",
                                     headers: {
@@ -102,7 +134,12 @@ export default class Login extends Component {
                                         this.setState({
                                             dataSource: responseData,
                                         })
-                                        if(JSON.stringify(this.state.dataSource.authorities).contains("ROLE_INTERPRETER")){
+                                        console.log("state",this.state.dataSource);
+                                        
+                                        let a = JSON.stringify(this.state.dataSource.authorities);
+                                        console.log("state2",a.indexOf("ROLE_INTERPRETER"));
+
+                                        if(a.indexOf("ROLE_INTERPRETER") > -1){
                                             let key = this.props.navigation.state.params.key;
                                             if (key === 'logout') {
                                                 const resetAction = NavigationActions.reset({
@@ -141,7 +178,6 @@ export default class Login extends Component {
             {
                 alert("Network request failed")
             }
-        });
     }
 
     getEmail = (email) => {
