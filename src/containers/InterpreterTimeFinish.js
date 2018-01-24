@@ -60,6 +60,7 @@ export default class InterpreterTimeFinish extends Component{
         }
 
     };
+
     constructor(props) {
         super(props);
         this.state = {
@@ -67,11 +68,16 @@ export default class InterpreterTimeFinish extends Component{
             isLoading: true,
             refresh: false,
             page:0,
+            net:false
         };
     }
+
+
+
     componentWillMount () {
-        NetInfo.isConnected.fetch().done((isConnected) => {
-            if ( isConnected )
+        NetInfo.isConnected.fetch().then(isConnected => {
+            this.setState({net:isConnected});
+            if (this.state.net)
             {
                 AsyncStorage.getItem('token').then((value) => {
                     console.log('token', value)
@@ -91,41 +97,55 @@ export default class InterpreterTimeFinish extends Component{
                         })
                         .catch((error)=>{console.log(error)})
                 });
+                NetInfo.isConnected.addEventListener(
+                    'connectionChange',
+                    handleFirstConnectivityChange.bind(this)
+                );
             }
             else
             {
-                alert("Network request failed")
+                // alert("Network request failed")
+                NetInfo.isConnected.addEventListener(
+                    'connectionChange',
+                    handleFirstConnectivityChange.bind(this)
+                );
             }
         });
+
+        function handleFirstConnectivityChange(isConnected) {
+            console.log("nnnn2",isConnected);
+            this.setState({net:isConnected});
+            if(this.state.net == true){
+                this.fetchData();
+            }else {
+                // alert("Network request failed")
+                NetInfo.isConnected.addEventListener(
+                    'connectionChange',
+                    handleFirstConnectivityChange.bind(this)
+                );
+            }
+            console.log("network2",this.state.net);
+        }
     }
 
     fetchData(){
-        NetInfo.isConnected.fetch().done((isConnected) => {
-            if ( isConnected )
-            {
-                AsyncStorage.getItem('token').then((value) => {
-                    console.log('token', value)
-                    fetch(URL + URL_TIMEFINISH + "&page=0&size=1000", {
-                        method: "GET",
-                        headers: {
-                            'Authorization': value,
-                            'Content-Type': 'application/json',
-                        }
-                    })
-                        .then((response) => response.json())
-                        .then((data4) => {
-                            this.setState({
-                                isLoading: false,
-                                dataSource: data4.content,
-                            });
-                        })
-                        .catch((error)=>{console.log(error)})
-                });
-            }
-            else
-            {
-                alert("Network request failed")
-            }
+        AsyncStorage.getItem('token').then((value) => {
+            console.log('token', value)
+            fetch(URL + URL_TIMEFINISH + "&page=0&size=1000", {
+                method: "GET",
+                headers: {
+                    'Authorization': value,
+                    'Content-Type': 'application/json',
+                }
+            })
+                .then((response) => response.json())
+                .then((data4) => {
+                    this.setState({
+                        isLoading: false,
+                        dataSource: data4.content,
+                    });
+                })
+                .catch((error)=>{console.log(error)})
         });
     }
 
@@ -165,6 +185,8 @@ export default class InterpreterTimeFinish extends Component{
     };
 
     render() {
+
+        console.log("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa-------",this.state.net);
         if (this.state.isLoading) {
             return (
                 <View style={{flex: 1,justifyContent:'center', alignItems: 'center', backgroundColor: '#718792'}}>

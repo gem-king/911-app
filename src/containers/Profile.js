@@ -52,8 +52,9 @@ class Profile extends Component {
             });
         }).catch((error) => console.log("Error load timer:", error)).done();
 
-        NetInfo.isConnected.fetch().done((isConnected) => {
-            if ( isConnected )
+        NetInfo.isConnected.fetch().then(isConnected => {
+            this.setState({net:isConnected});
+            if (this.state.net)
             {
                 AsyncStorage.getItem('token').then((value) => {
                     fetch(URL + URL_ACOUNT, {
@@ -89,12 +90,79 @@ class Profile extends Component {
                         })
                         .done();
                 });
+                NetInfo.isConnected.addEventListener(
+                    'connectionChange',
+                    handleFirstConnectivityChange.bind(this)
+                );
             }
             else
             {
-                alert("Network request failed")
+                // alert("Network request failed")
+                NetInfo.isConnected.addEventListener(
+                    'connectionChange',
+                    handleFirstConnectivityChange.bind(this)
+                );
             }
         });
+
+        function handleFirstConnectivityChange(isConnected) {
+            console.log("nnnn2",isConnected);
+            this.setState({net:isConnected});
+            if(this.state.net == true){
+                this.fetchData();
+            }else {
+                // alert("Network request failed")
+                NetInfo.isConnected.addEventListener(
+                    'connectionChange',
+                    handleFirstConnectivityChange.bind(this)
+                );
+            }
+            console.log("network2",this.state.net);
+        }
+
+        // NetInfo.isConnected.fetch().done((isConnected) => {
+        //     if ( isConnected )
+        //     {
+        //         AsyncStorage.getItem('token').then((value) => {
+        //             fetch(URL + URL_ACOUNT, {
+        //                 method: "GET",
+        //                 headers: {
+        //                     'Authorization': value,
+        //                 }
+        //             })
+        //                 .then((response) => response.json())
+        //                 .then((responseData) => {
+        //
+        //                     fetch(URL + URL_ID + responseData.id, {
+        //                         method: "GET",
+        //                         headers: {
+        //                             'Authorization': value,
+        //                         }
+        //                     })
+        //                         .then((response2) => response2.json())
+        //                         .then((responseData2) => {
+        //                             fetch(URL + URL_LANGUAGE + responseData2, {
+        //                                 method: "GET",
+        //                                 headers: {
+        //                                     'Authorization': value,
+        //                                 }
+        //                             })
+        //                                 .then((response3) => response3.json())
+        //                                 .then((responseData3) => {
+        //                                     this.setState({
+        //                                         account: responseData3
+        //                                     })
+        //                                 })
+        //                         })
+        //                 })
+        //                 .done();
+        //         });
+        //     }
+        //     else
+        //     {
+        //         alert("Network request failed")
+        //     }
+        // });
     }
 
     componentDidMount() {

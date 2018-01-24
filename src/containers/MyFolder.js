@@ -14,7 +14,7 @@ import {
 
 } from 'react-native';
 import Icon from 'react-native-vector-icons/dist/MaterialCommunityIcons'
-import {URL, URL_FOLDER} from "../components/const";
+import {URL, URL_FOLDER, URL_TIMEFINISH} from "../components/const";
 import Dimensions from 'Dimensions';
 
 const DEVICE_WIDTH = Dimensions.get('window').width;
@@ -63,7 +63,8 @@ export default class MyFolder extends Component{
             dataSource:'',
             isLoading : true,
             refresh : false,
-            page : 0
+            page : 0,
+            net: false
         }
 
     }
@@ -80,9 +81,10 @@ export default class MyFolder extends Component{
         }
 
     };
-    fetchData(){
-        NetInfo.isConnected.fetch().done((isConnected) => {
-            if ( isConnected )
+    fetchData = () => {
+        NetInfo.isConnected.fetch().then(isConnected => {
+            this.setState({net:isConnected});
+            if (this.state.net)
             {
                 AsyncStorage.getItem('token').then((value) => {
                     fetch(URL + URL_FOLDER+ "&page=0&size=1000", {
@@ -101,12 +103,35 @@ export default class MyFolder extends Component{
                         })
                         .catch((error)=>{console.log(error)})
                 });
+                NetInfo.isConnected.addEventListener(
+                    'connectionChange',
+                    handleFirstConnectivityChange.bind(this)
+                );
             }
             else
             {
-                alert("Network request failed")
+                // alert("Network request failed")
+                NetInfo.isConnected.addEventListener(
+                    'connectionChange',
+                    handleFirstConnectivityChange.bind(this)
+                );
             }
         });
+
+        function handleFirstConnectivityChange(isConnected) {
+            console.log("nnnn2",isConnected);
+            this.setState({net:isConnected});
+            if(this.state.net == true){
+                this.fetchData();
+            }else {
+                // alert("Network request failed")
+                NetInfo.isConnected.addEventListener(
+                    'connectionChange',
+                    handleFirstConnectivityChange.bind(this)
+                );
+            }
+            console.log("network2",this.state.net);
+        }
     }
 
     mTime(time){
