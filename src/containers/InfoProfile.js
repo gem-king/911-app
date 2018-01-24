@@ -37,7 +37,11 @@ export default class InfoProfile extends Component{
         var myMin = ((myDate.getMinutes())<10?("0"+myDate.getMinutes()): myDate.getMinutes());
 
         var myTime = myDay+"/"+myMonth+"/"+myYear+", "+myHour+":"+myMin+" "+amPM;
-        var obj = JSON.parse(params.dataAccount.phones);
+        try {
+            var obj = JSON.parse(params.dataAccount.phones);
+        }catch (er){
+            console.log(er)
+        }
 
         return(
             <View style = {{flex:1, backgroundColor:'white'}}>

@@ -17,7 +17,7 @@ import {
 
 } from 'react-native';
 import Icon from 'react-native-vector-icons/dist/MaterialCommunityIcons'
-import {URL, URL_SHEDULE} from "../components/const";
+import {URL, URL_SHEDULE, URL_TIMEFINISH} from "../components/const";
 import {connect} from 'react-redux';
 
 var AlarmIOS = NativeModules.AlarmModuleIos;
@@ -75,6 +75,7 @@ class MyShedule extends Component {
             refresh: false,
             page: 0,
             time: '8-30',
+            net: false
         };
         AsyncStorage.getItem('timer').then((timer) => {
             if (timer === null) {
@@ -92,8 +93,6 @@ class MyShedule extends Component {
             }
         }).catch((error) => console.log("Error timer from MyShedule")).done();
     }
-
-    //delay next click to 2s
 
     componentWillMount() {
         this.fetchData();
@@ -142,9 +141,9 @@ class MyShedule extends Component {
     }
 
     fetchData = () => {
-
-        NetInfo.isConnected.fetch().done((isConnected) => {
-            if ( isConnected )
+        NetInfo.isConnected.fetch().then(isConnected => {
+            this.setState({net:isConnected});
+            if (this.state.net)
             {
                 AsyncStorage.getItem('token').then((value) => {
                     fetch((URL + URL_SHEDULE + "&page=0&size=1000"), {
@@ -171,16 +170,37 @@ class MyShedule extends Component {
                             console.log(error)
                         })
                 });
+                NetInfo.isConnected.addEventListener(
+                    'connectionChange',
+                    handleFirstConnectivityChange.bind(this)
+                );
             }
             else
             {
                 alert("Network request failed")
+                NetInfo.isConnected.addEventListener(
+                    'connectionChange',
+                    handleFirstConnectivityChange.bind(this)
+                );
             }
         });
+
+        function handleFirstConnectivityChange(isConnected) {
+            console.log("nnnn2",isConnected);
+            this.setState({net:isConnected});
+            if(this.state.net == true){
+                this.fetchData();
+            }else {
+                // alert("Network request failed")
+                NetInfo.isConnected.addEventListener(
+                    'connectionChange',
+                    handleFirstConnectivityChange.bind(this)
+                );
+            }
+            console.log("network2",this.state.net);
+        }
     }
 
-
-//fillter day for scheduce alarrm
     fillterData(content, currentDay, currentMotnh, currentYear) {
         let array = [];
         for (let i = 0; i < content.length; i++) {
