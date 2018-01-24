@@ -20,8 +20,12 @@ import {
 import Dimensions from 'Dimensions';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import DatePicker from 'react-native-datepicker'
-import {URL, URL_BILL, URL_CUSTOMER, URL_IDTIMEFINISH, URL_INTAKE, URL_PAY, URL_TIMEFINISH} from "../components/const";
+import {
+    URL, URL_ACOUNT, URL_BILL, URL_CUSTOMER, URL_DECLINE, URL_IDTIMEFINISH, URL_INTAKE, URL_LOGIN, URL_PAY,
+    URL_TIMEFINISH
+} from "../components/const";
 import {connect} from 'react-redux';
+import {NavigationActions} from "react-navigation";
 
 var {height, width} = Dimensions.get('window');
 const DEVICE_WIDTH = Dimensions.get('window').width;
@@ -61,6 +65,31 @@ class DetailsTimeFinish extends Component {
             dataStreet: '',
             dataCity: '',
         };
+
+        this.mang = false;
+
+        NetInfo.isConnected.fetch().then(isConnected => {
+            // console.log('First, is ' + (isConnected ? 'online' : 'offline'));
+            console.log("nnnn1",isConnected);
+            this.mang = isConnected;
+            console.log("network1",this.mang);
+        });
+        function handleFirstConnectivityChange(isConnected) {
+            // console.log('Then, is ' + (isConnected ? 'online' : 'offline'));
+            console.log("nnnn2",isConnected);
+            this.mang = isConnected;
+            this.a = 1;
+            console.log("network2",this.mang);
+            NetInfo.isConnected.removeEventListener(
+                'connectionChange',
+                handleFirstConnectivityChange
+            );
+        }
+
+        NetInfo.isConnected.addEventListener(
+            'connectionChange',
+            handleFirstConnectivityChange.bind(this)
+        );
     }
 
     componentWillMount() {
@@ -343,13 +372,11 @@ class DetailsTimeFinish extends Component {
 
 _onPressSave = async () => {
 
-    // var myTime = this.state.date + " " + this.state.time;
-    // var dt  = myTime.split(/\-|\s/);
     var myTime= this.state.date;
     console.log(myTime);
     let year = myTime.substring(myTime.lastIndexOf("/")+1, myTime.length).trim();
-    let month = myTime.substring(myTime.indexOf("/")+1,myTime.lastIndexOf("/")).trim() -1;
-    let day = myTime.substring(0, myTime.indexOf("/")).trim();
+    let day = myTime.substring(myTime.indexOf("/")+1,myTime.lastIndexOf("/")).trim();
+    let month = myTime.substring(0, myTime.indexOf("/")).trim()-1;
 
     let time =  this.state.time;
     let hour = time.substring(0, time.indexOf(":")).trim();
@@ -532,7 +559,8 @@ _onPressSave = async () => {
                         this.setState({duraMin: Math.round((diff1 / (60 * 1000)) * factor) / factor});
 
                         NetInfo.isConnected.fetch().done((isConnected) => {
-                            if (isConnected) {
+                            if ( isConnected )
+                            {
                                 AsyncStorage.getItem('token').then((value) => {
                                     console.log('detailTime', value);
 
@@ -544,11 +572,14 @@ _onPressSave = async () => {
                                         },
                                         body: JSON.stringify({
                                             finishTime: dat1,
-                                            intakeId: this.state.dataSource.id,
-                                            startTime: this.state.dataSource.timeOfService
+                                            timeOfService : this.state.dataSource.timeOfService,
+                                            id: this.state.dataSource.id,
+                                            noiCustomerId : this.state.dataSource.noiCustomerId,
+                                            noiLanguageId : this.state.dataSource.noiLanguageId,
+                                            intakeType: this.state.dataSource.intakeType,
                                         })
                                     })
-                                        .then((response) => response.json())
+                                        .then((response) => response.text())
                                         .then((dataTake) => {
                                             console.log("send",dataTake)
                                             this.setState({
@@ -561,7 +592,8 @@ _onPressSave = async () => {
 
                                 });
                             }
-                            else {
+                            else
+                            {
                                 alert("Network request failed")
                             }
                         });
