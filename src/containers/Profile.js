@@ -109,7 +109,7 @@ class Profile extends Component {
             console.log("nnnn2",isConnected);
             this.setState({net:isConnected});
             if(this.state.net == true){
-                this.fetchData();
+                this.componentWillMount();
             }else {
                 // alert("Network request failed")
                 NetInfo.isConnected.addEventListener(
