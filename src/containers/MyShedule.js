@@ -63,8 +63,6 @@ class MyShedule extends Component {
                 <Icon name="menu" size={30} style={{marginLeft: 7}} color="white"/>
             </TouchableOpacity>
         }
-
-
     }
 
     constructor(props) {
@@ -75,8 +73,9 @@ class MyShedule extends Component {
             refresh: false,
             page: 0,
             time: '8-30',
-            net: false
+            net: null
         };
+
         AsyncStorage.getItem('timer').then((timer) => {
             if (timer === null) {
                 //console.log("data timer is null");
@@ -143,7 +142,7 @@ class MyShedule extends Component {
     fetchData = () => {
         NetInfo.isConnected.fetch().then(isConnected => {
             this.setState({net:isConnected});
-            if (this.state.net)
+            if (this.state.net == true)
             {
                 AsyncStorage.getItem('token').then((value) => {
                     fetch((URL + URL_SHEDULE + "&page=0&size=1000"), {
@@ -175,7 +174,7 @@ class MyShedule extends Component {
                     handleFirstConnectivityChange.bind(this)
                 );
             }
-            else
+            if(this.state.net == false)
             {
                 alert("Network request failed")
                 NetInfo.isConnected.addEventListener(
@@ -190,7 +189,7 @@ class MyShedule extends Component {
             this.setState({net:isConnected});
             if(this.state.net == true){
                 this.fetchData();
-            }else {
+            }if(this.state.net == false) {
                 // alert("Network request failed")
                 NetInfo.isConnected.addEventListener(
                     'connectionChange',
