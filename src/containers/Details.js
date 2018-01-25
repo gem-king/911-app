@@ -362,6 +362,42 @@ export default class Details extends Component {
         }
     }
 
+    cancel(){
+        var nowDate = new Date(Date.now()).getTime();
+        // alert("time now" + nowDate)
+        var startTime = this.state.dataSource.timeOfService;
+        var myDate = new Date(startTime);
+        var timeZone = myDate.getTimezoneOffset();
+        timeZone = timeZone / (-60);
+        var mMili = myDate.getTime()-timeZone*3600*1000;
+        myDate = new Date(mMili).getTime();
+        // alert("time start" + myDate)
+
+        if(myDate > nowDate){
+            return(
+                <View style={{flexDirection: 'row', marginTop: 30}}>
+                    <TouchableOpacity onPress={() => {
+                        this._onPressCancel(params.dataShedule)
+                    }}>
+                        <View style={{
+                            width: 150,
+                            height: 30,
+                            backgroundColor: '#F44336',
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                            marginLeft: 10,
+                            marginBottom: 10
+                        }}>
+                            <Text style={{color: "#FFFFFF"}}>Cancel Appointment</Text>
+                        </View>
+                    </TouchableOpacity>
+                </View>
+            )
+        }else {
+            return null;
+        }
+    }
+
     hideView(name){
 
         var startTime = this.state.dataSource.timeOfService;
@@ -1526,24 +1562,7 @@ export default class Details extends Component {
 
                         {this.hideView(params.dataShedule.appNbr)}
 
-                        <View style={{flexDirection: 'row', marginTop: 30}}>
-                            <TouchableOpacity onPress={() => {
-                                this._onPressCancel(params.dataShedule)
-                            }}>
-                                <View style={{
-                                    width: 150,
-                                    height: 30,
-                                    backgroundColor: '#F44336',
-                                    justifyContent: 'center',
-                                    alignItems: 'center',
-                                    marginLeft: 10,
-                                    marginBottom: 10
-                                }}>
-                                    <Text>Cancel Appointment</Text>
-                                </View>
-                            </TouchableOpacity>
-                        </View>
-
+                        {this.cancel()}
 
                     </ScrollView>
                 </View>
