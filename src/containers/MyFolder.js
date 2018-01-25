@@ -64,7 +64,7 @@ export default class MyFolder extends Component{
             isLoading : true,
             refresh : false,
             page : 0,
-            net: false
+            net: null
         }
 
     }
@@ -110,7 +110,6 @@ export default class MyFolder extends Component{
             }
             else
             {
-                // alert("Network request failed")
                 NetInfo.isConnected.addEventListener(
                     'connectionChange',
                     handleFirstConnectivityChange.bind(this)
@@ -124,7 +123,6 @@ export default class MyFolder extends Component{
             if(this.state.net == true){
                 this.fetchData();
             }else {
-                // alert("Network request failed")
                 NetInfo.isConnected.addEventListener(
                     'connectionChange',
                     handleFirstConnectivityChange.bind(this)
@@ -164,7 +162,6 @@ export default class MyFolder extends Component{
 
     showTime(name, myTime) {
         var n = name.indexOf("DOC");
-        console.log("nnnnnnnnnnnnnnnn",n);
         if (n > -1) {
             return "";
         } else {

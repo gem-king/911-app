@@ -14,11 +14,37 @@ export default class InfoProfile extends Component{
         super(props)
     }
 
-
-    render (){
+    phone(){
         const { params } = this.props.navigation.state;
-        console.log("My Account", params);
+        try {
+            var obj = JSON.parse(params.dataAccount.phones);
+        }catch (er){
+            console.log(er)
+        }
+        if(obj == null){
+            return null;
+        }else{
+            return obj[0].phoneNo;
+        }
+    }
 
+    language(){
+        const { params } = this.props.navigation.state;
+        if(params.dataAccount.languageDTOs == null){
+            return null;
+        }else {
+            return (
+                <View>
+                    {params.dataAccount.languageDTOs.map(language=>(
+                        <Text style = {styles.textValue} key = {language.name}>{language.name}</Text>
+                    ))}
+                </View>
+            )
+        }
+    }
+
+    date(){
+        const { params } = this.props.navigation.state;
         var startTime = params.dataAccount.createdDate;
 
         var myDate = new Date(startTime);
@@ -37,11 +63,16 @@ export default class InfoProfile extends Component{
         var myMin = ((myDate.getMinutes())<10?("0"+myDate.getMinutes()): myDate.getMinutes());
 
         var myTime = myDay+"/"+myMonth+"/"+myYear+", "+myHour+":"+myMin+" "+amPM;
-        try {
-            var obj = JSON.parse(params.dataAccount.phones);
-        }catch (er){
-            console.log(er)
+
+        if(startTime == null){
+            return null;
+        }else {
+            return myTime
         }
+    }
+
+    render (){
+        const { params } = this.props.navigation.state;
 
         return(
             <View style = {{flex:1, backgroundColor:'white'}}>
@@ -53,15 +84,13 @@ export default class InfoProfile extends Component{
                 <Text style = {styles.textValue}>{params.dataAccount.email}</Text>
                 <View style = {{height:1, backgroundColor:'#cccccc', marginTop:5}}/>
                 <Text style = {styles.textTitle}>Phone Number</Text>
-                <Text style = {styles.textValue}>{obj[0].phoneNo}</Text>
+                <Text style = {styles.textValue}>{this.phone()}</Text>
                 <View style = {{height:1, backgroundColor:'#cccccc', marginTop:5}}/>
                 <Text style = {styles.textTitle}>Language</Text>
-                {params.dataAccount.languageDTOs.map(language=>(
-                    <Text style = {styles.textValue} key = {language.name}>{language.name}</Text>
-                ))}
+                {this.language()}
                 <View style = {{height:1, backgroundColor:'#cccccc', marginTop:5}}/>
                 <Text style = {styles.textTitle}>Join Date</Text>
-                <Text style = {styles.textValue}>{myTime}</Text>
+                <Text style = {styles.textValue}>{this.date()}</Text>
                 <View style = {{height:1, backgroundColor:'#cccccc', marginTop:5}}/>
 
             </View>

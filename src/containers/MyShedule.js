@@ -75,11 +75,10 @@ class MyShedule extends Component {
             refresh: false,
             page: 0,
             time: '8-30',
-            net: false
+            net: null
         };
         AsyncStorage.getItem('timer').then((timer) => {
             if (timer === null) {
-                //console.log("data timer is null");
                 this.setState({
                     ...this.setState,
                     time: '8-30',
@@ -106,22 +105,21 @@ class MyShedule extends Component {
     };
 
     fillterColor(mang) {
-        // console.log('mang', mang)
         let currentDay = new Date().getDate();
-        // console.log('ngay', currentDay)
+
         let currentMonth = new Date().getMonth() + 1;
-        // console.log('thang', currentMonth)
+
         let currentYear = new Date().getFullYear();
-        // console.log('nam', currentYear)
+
 
         for (let i = 0; i < mang.length; i++) {
             mang[i].status = true;
             let dateItem = new Date(mang[i].timeOfService).getDate();
-            // console.log('date', dateItem)
+
             let monthItem = new Date(mang[i].timeOfService).getMonth() + 1;
-            // console.log('month', monthItem)
+
             let yearItem = new Date(mang[i].timeOfService).getFullYear();
-            // console.log('year', yearItem)
+
             if (currentYear = yearItem) {
                 if (currentMonth > monthItem) {
 
@@ -155,7 +153,7 @@ class MyShedule extends Component {
                     })
                         .then((response) => response.json())
                         .then((data4) => {
-                            console.log("f1", data4.content);
+
                             let arrData = this.fillterColor(data4.content);
                             this.setState({
                                 ...this.state,
@@ -163,7 +161,6 @@ class MyShedule extends Component {
                                 dataSource: arrData,
                             })
 
-                            console.log('mang', this.state.dataSource)
                             this.excuceAlarm();
                         })
                         .catch((error) => {
@@ -191,7 +188,6 @@ class MyShedule extends Component {
             if(this.state.net == true){
                 this.fetchData();
             }else {
-                // alert("Network request failed")
                 NetInfo.isConnected.addEventListener(
                     'connectionChange',
                     handleFirstConnectivityChange.bind(this)
@@ -205,7 +201,6 @@ class MyShedule extends Component {
         let array = [];
         for (let i = 0; i < content.length; i++) {
             let dateItem = new Date(content[i].timeOfService)
-            console.log('wtf', dateItem)
             if (array.length == 0) {
                 array.push({
                     day: dateItem.getDate(),
@@ -242,13 +237,11 @@ class MyShedule extends Component {
             }
             array[k] = {apointment: dem, ...array[k]}
         }
-        console.log("arr__", array);
         return array;
 
     }
 
     excuceAlarm() {
-        console.log("exe alarm");
         let currentDay = new Date().getDate();
         let currentMotnh = new Date().getMonth() + 1;
         let currentYear = new Date().getFullYear();
@@ -271,8 +264,6 @@ class MyShedule extends Component {
                 let item = array[i];
                 if (parseInt(item.day) > parseInt(currentDay) && parseInt(item.month) >= parseInt(currentMotnh) && parseInt(item.year) >= parseInt(currentYear)) {
 
-                    console.log("da vao bao thuc");
-                    console.log("month pass: ", item.month);
                     let key = item.day + "" + item.month + "" + item.year;
                     let body = "Tomorrow you have " + item.apointment + " apointment.";
                     let beforday = item.day;
@@ -339,7 +330,6 @@ class MyShedule extends Component {
 
     showTime(name, myTime) {
         var n = name.indexOf("DOC");
-        // console.log("nnnnnnnnnnnnnnnn",n);
         if (n > -1) {
             return "";
         } else {
@@ -357,7 +347,6 @@ class MyShedule extends Component {
             AsyncStorage.getItem('timer').then((timer) => {
 
                 if (timer === null) {
-                    //console.log("data timer is null");
                     this.setState({
                         ...this.setState,
                         time: '8-30',
@@ -509,7 +498,6 @@ class MyShedule extends Component {
 }
 
 function mapStateToProps(state) {
-    console.log('state', state);
     return {
         isApply: state.isApply,
         isTimeChanged: state.isTimeChanged

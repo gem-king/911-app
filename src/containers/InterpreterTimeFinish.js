@@ -68,7 +68,7 @@ export default class InterpreterTimeFinish extends Component{
             isLoading: true,
             refresh: false,
             page:0,
-            net:false
+            net: null
         };
     }
 
@@ -80,7 +80,6 @@ export default class InterpreterTimeFinish extends Component{
             if (this.state.net)
             {
                 AsyncStorage.getItem('token').then((value) => {
-                    console.log('token', value)
                     fetch(URL + URL_TIMEFINISH + "&page=0&size=1000", {
                         method: "GET",
                         headers: {
@@ -130,7 +129,6 @@ export default class InterpreterTimeFinish extends Component{
 
     fetchData(){
         AsyncStorage.getItem('token').then((value) => {
-            console.log('token', value)
             fetch(URL + URL_TIMEFINISH + "&page=0&size=1000", {
                 method: "GET",
                 headers: {
@@ -186,7 +184,6 @@ export default class InterpreterTimeFinish extends Component{
 
     render() {
 
-        console.log("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa-------",this.state.net);
         if (this.state.isLoading) {
             return (
                 <View style={{flex: 1,justifyContent:'center', alignItems: 'center', backgroundColor: '#718792'}}>
@@ -194,7 +191,6 @@ export default class InterpreterTimeFinish extends Component{
                 </View>
             );
         }
-        console.log(this.props.navigation)
         return (
 
             <View style = {{flex:1, backgroundColor: '#718792'}}>
