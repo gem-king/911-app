@@ -4,6 +4,7 @@ import {
 } from 'react-native'
 import images from "../components/images";
 import Logo from "../components/Login/Logo";
+import Icon from 'react-native-vector-icons/Ionicons';
 import Dimensions from 'Dimensions';
 import {URL, URL_CANCEL, URL_CHANGE, URL_FORGOT, URL_SHEDULE, URL_TIMEFINISH} from "../components/const";
 import {NavigationActions} from "react-navigation";
@@ -27,6 +28,19 @@ if (DEVICE_WIDTH >= 500) {
 }
 export default class ChangePassword extends Component {
     myColor = '#e0e0e0';
+
+    static navigationOptions = ({ navigation}) => {
+        const {state} = navigation;
+        return {
+            headerLeft:
+                <TouchableOpacity onPress={() => {
+                    navigation.goBack()
+                }}>
+                    <Icon name="ios-arrow-back" size={30} style={{marginLeft: 7}} color="white"></Icon>
+                </TouchableOpacity>
+        }
+
+    };
 
     constructor(props) {
         super(props);

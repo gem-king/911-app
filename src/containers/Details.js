@@ -12,7 +12,7 @@ import {
     FlatList
 } from 'react-native';
 import Dimensions from 'Dimensions';
-import Icon from 'react-native-vector-icons/FontAwesome';
+import Icon from 'react-native-vector-icons/Ionicons';
 import {URL, URL_CANCEL, URL_CUSTOMER, URL_IDTIMEFINISH, URL_TIMEFINISH} from "../components/const";
 
 var {height, width} = Dimensions.get('window');
@@ -30,6 +30,20 @@ import {NavigationActions} from 'react-navigation'
 
 
 export default class Details extends Component {
+
+    static navigationOptions = ({ navigation}) => {
+        const {state} = navigation;
+        return {
+            headerLeft:
+                <TouchableOpacity onPress={() => {
+                    navigation.goBack()
+                }}>
+                    <Icon name="ios-arrow-back" size={30} style={{marginLeft: 7}} color="white"></Icon>
+                </TouchableOpacity>
+        }
+
+    };
+
     constructor(props) {
         super(props)
         this.state = {
@@ -359,6 +373,42 @@ export default class Details extends Component {
             }
         }catch (ero){
             console.log(ero)
+        }
+    }
+
+    cancel(){
+        var nowDate = new Date(Date.now()).getTime();
+        // alert("time now" + nowDate)
+        var startTime = this.state.dataSource.timeOfService;
+        var myDate = new Date(startTime);
+        var timeZone = myDate.getTimezoneOffset();
+        timeZone = timeZone / (-60);
+        var mMili = myDate.getTime()-timeZone*3600*1000;
+        myDate = new Date(mMili).getTime();
+        // alert("time start" + myDate)
+
+        if(myDate > nowDate){
+            return(
+                <View style={{flexDirection: 'row', marginTop: 30}}>
+                    <TouchableOpacity onPress={() => {
+                        this._onPressCancel(params.dataShedule)
+                    }}>
+                        <View style={{
+                            width: 150,
+                            height: 30,
+                            backgroundColor: '#F44336',
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                            marginLeft: 10,
+                            marginBottom: 10
+                        }}>
+                            <Text style={{color: "#FFFFFF"}}>Cancel Appointment</Text>
+                        </View>
+                    </TouchableOpacity>
+                </View>
+            )
+        }else {
+            return null;
         }
     }
 
@@ -706,64 +756,87 @@ export default class Details extends Component {
                                 style={styles.textR}>{this.notes()}</Text>
                         </View>
                     </View>
-                    <View style={styles.viewTitle}>
-                        <Text style={styles.textTille}>Service Recipient Information</Text>
-                    </View>
-                    <View style={styles.container}>
-                        <View style={styles.viewcon}>
-                            <Text style={styles.textL}>Last Name</Text>
+                    <View style={{marginBottom: 16}}>
+                        <View style={styles.viewTitle}>
+                            <Text style={styles.textTille}>Service Recipient Information</Text>
                         </View>
-                        <View style={styles.viewcon}>
-                            <Text style={styles.textR}>{obj.lastName}</Text>
-                        </View>
-                    </View>
-                    <View style={styles.container}>
-                        <View style={styles.viewcon}>
-                            <Text style={styles.textL}>First Name</Text>
-                        </View>
-                        <View style={styles.viewcon}>
-                            <Text style={styles.textR}>{obj.firstName}</Text>
-                        </View>
-                    </View>
-                    <View style={styles.container}>
-                        <View style={styles.viewcon}>
-                            <Text style={styles.textL}>Home Phone</Text>
-                        </View>
-                        <View style={styles.viewcon}>
-                            <Text style={styles.textR}>{obj.homePhone}</Text>
-                        </View>
-                    </View>
-                    <View style={styles.container}>
-                        <View style={styles.viewcon}>
-                            <Text style={styles.textL}>Work Phone</Text>
-                        </View>
-                        <View style={styles.viewcon}>
-                            <Text style={styles.textR}>{obj.workPhone}</Text>
-                        </View>
-                    </View>
-                    <View style={styles.container}>
-                        <View style={{
-                            width: width / 2,
-                            borderLeftWidth: 1,
-                            borderLeftColor: '#E0E0E0',
-                            borderTopWidth: 1,
-                            borderBottomWidth: 1,
-                            borderBottomColor: '#E0E0E0',
-                            borderTopColor: '#E0E0E0'
-                        }}>
-                            <Text style={styles.textL}>Cell Phone</Text>
-                        </View>
-                        <View style={{
-                            width: width / 2,
-                            borderLeftWidth: 1,
-                            borderLeftColor: '#E0E0E0',
-                            borderTopWidth: 1,
-                            borderBottomWidth: 1,
-                            borderBottomColor: '#E0E0E0',
-                            borderTopColor: '#E0E0E0'
-                        }}>
-                            <Text style={styles.textR}>{obj.cellPhone}</Text>
-                        </View>
+                        <ScrollView
+                            directionalLockEnabled={false}
+                            horizontal={true}
+                            style={{borderColor: '#E0E0E0', borderWidth: 1, margin: 5}}>
+
+                            <View style={{backgroundColor: 'white'}}>
+                                <View style={{
+                                    flexDirection: 'row',
+                                    alignContent: 'center',
+                                    backgroundColor: '#eeeeee',
+                                    borderBottomColor: '#E0E0E0',
+                                    paddingBottom: 5,
+                                    paddingTop: 5,
+                                    borderBottomWidth: 1
+                                }}>
+                                    <View style={styles.styleItem}>
+                                        <Text style={styles.styleTitle}>
+                                            Last Name
+                                        </Text>
+                                    </View>
+                                    <View style={styles.styleItem}>
+                                        <Text style={styles.styleTitle}>
+                                            First Name
+                                        </Text>
+                                    </View>
+                                    <View style={styles.styleItem}>
+                                        <Text style={styles.styleTitle}>
+                                            Home Phone
+                                        </Text>
+                                    </View>
+                                    <View style={styles.styleItem}>
+                                        <Text style={styles.styleTitle}>
+                                            Work Phone
+                                        </Text>
+                                    </View>
+                                    <View style={styles.styleItem}>
+                                        <Text style={styles.styleTitle}>
+                                            Cell Phone
+                                        </Text>
+                                    </View>
+
+                                </View>
+                                <View style={{
+                                    flexDirection: 'row',
+                                    alignContent: 'center',
+                                    paddingBottom: 2,
+                                    justifyContent: 'center',
+                                    paddingTop: 2,
+                                }}>
+                                    <View style={styles.styleItem}>
+                                        <Text style={styles.styleValue}>
+                                            {obj.lastName}
+                                        </Text>
+                                    </View>
+                                    <View style={styles.styleItem}>
+                                        <Text style={styles.styleValue}>
+                                            {obj.firstName}
+                                        </Text>
+                                    </View>
+                                    <View style={styles.styleItem}>
+                                        <Text style={styles.styleValue}>
+                                            {obj.homePhone}
+                                        </Text>
+                                    </View>
+                                    <View style={styles.styleItem}>
+                                        <Text style={styles.styleValue}>
+                                            {obj.workPhone}
+                                        </Text>
+                                    </View>
+                                    <View style={styles.styleItem}>
+                                        <Text style={styles.styleValue}>
+                                            {obj.cellPhone}
+                                        </Text>
+                                    </View>
+                                </View>
+                            </View>
+                        </ScrollView>
                     </View>
                 </View>
             );
@@ -923,64 +996,87 @@ export default class Details extends Component {
                                 style={styles.textR}>{this.notes()}</Text>
                         </View>
                     </View>
-                    <View style={styles.viewTitle}>
-                        <Text style={styles.textTille}>Service Recipient Information</Text>
-                    </View>
-                    <View style={styles.container}>
-                        <View style={styles.viewcon}>
-                            <Text style={styles.textL}>Last Name</Text>
+                    <View style={{marginBottom: 16}}>
+                        <View style={styles.viewTitle}>
+                            <Text style={styles.textTille}>Service Recipient Information</Text>
                         </View>
-                        <View style={styles.viewcon}>
-                            <Text style={styles.textR}>{obj.lastName}</Text>
-                        </View>
-                    </View>
-                    <View style={styles.container}>
-                        <View style={styles.viewcon}>
-                            <Text style={styles.textL}>First Name</Text>
-                        </View>
-                        <View style={styles.viewcon}>
-                            <Text style={styles.textR}>{obj.firstName}</Text>
-                        </View>
-                    </View>
-                    <View style={styles.container}>
-                        <View style={styles.viewcon}>
-                            <Text style={styles.textL}>Home Phone</Text>
-                        </View>
-                        <View style={styles.viewcon}>
-                            <Text style={styles.textR}>{obj.homePhone}</Text>
-                        </View>
-                    </View>
-                    <View style={styles.container}>
-                        <View style={styles.viewcon}>
-                            <Text style={styles.textL}>Work Phone</Text>
-                        </View>
-                        <View style={styles.viewcon}>
-                            <Text style={styles.textR}>{obj.workPhone}</Text>
-                        </View>
-                    </View>
-                    <View style={styles.container}>
-                        <View style={{
-                            width: width / 2,
-                            borderLeftWidth: 1,
-                            borderLeftColor: '#E0E0E0',
-                            borderTopWidth: 1,
-                            borderBottomWidth: 1,
-                            borderBottomColor: '#E0E0E0',
-                            borderTopColor: '#E0E0E0'
-                        }}>
-                            <Text style={styles.textL}>Cell Phone</Text>
-                        </View>
-                        <View style={{
-                            width: width / 2,
-                            borderLeftWidth: 1,
-                            borderLeftColor: '#E0E0E0',
-                            borderTopWidth: 1,
-                            borderBottomWidth: 1,
-                            borderBottomColor: '#E0E0E0',
-                            borderTopColor: '#E0E0E0'
-                        }}>
-                            <Text style={styles.textR}>{obj.cellPhone}</Text>
-                        </View>
+                        <ScrollView
+                            directionalLockEnabled={false}
+                            horizontal={true}
+                            style={{borderColor: '#E0E0E0', borderWidth: 1, margin: 5}}>
+
+                            <View style={{backgroundColor: 'white'}}>
+                                <View style={{
+                                    flexDirection: 'row',
+                                    alignContent: 'center',
+                                    backgroundColor: '#eeeeee',
+                                    borderBottomColor: '#E0E0E0',
+                                    paddingBottom: 5,
+                                    paddingTop: 5,
+                                    borderBottomWidth: 1
+                                }}>
+                                    <View style={styles.styleItem}>
+                                        <Text style={styles.styleTitle}>
+                                            Last Name
+                                        </Text>
+                                    </View>
+                                    <View style={styles.styleItem}>
+                                        <Text style={styles.styleTitle}>
+                                            First Name
+                                        </Text>
+                                    </View>
+                                    <View style={styles.styleItem}>
+                                        <Text style={styles.styleTitle}>
+                                            Home Phone
+                                        </Text>
+                                    </View>
+                                    <View style={styles.styleItem}>
+                                        <Text style={styles.styleTitle}>
+                                            Work Phone
+                                        </Text>
+                                    </View>
+                                    <View style={styles.styleItem}>
+                                        <Text style={styles.styleTitle}>
+                                            Cell Phone
+                                        </Text>
+                                    </View>
+
+                                </View>
+                                <View style={{
+                                    flexDirection: 'row',
+                                    alignContent: 'center',
+                                    paddingBottom: 2,
+                                    justifyContent: 'center',
+                                    paddingTop: 2,
+                                }}>
+                                    <View style={styles.styleItem}>
+                                        <Text style={styles.styleValue}>
+                                            {obj.lastName}
+                                        </Text>
+                                    </View>
+                                    <View style={styles.styleItem}>
+                                        <Text style={styles.styleValue}>
+                                            {obj.firstName}
+                                        </Text>
+                                    </View>
+                                    <View style={styles.styleItem}>
+                                        <Text style={styles.styleValue}>
+                                            {obj.homePhone}
+                                        </Text>
+                                    </View>
+                                    <View style={styles.styleItem}>
+                                        <Text style={styles.styleValue}>
+                                            {obj.workPhone}
+                                        </Text>
+                                    </View>
+                                    <View style={styles.styleItem}>
+                                        <Text style={styles.styleValue}>
+                                            {obj.cellPhone}
+                                        </Text>
+                                    </View>
+                                </View>
+                            </View>
+                        </ScrollView>
                     </View>
                 </View>
             );
@@ -1161,64 +1257,87 @@ export default class Details extends Component {
                             <Text style={styles.textR}>{this.state.dataSource.note}</Text>
                         </View>
                     </View>
-                    <View style={styles.viewTitle}>
-                        <Text style={styles.textTille}>Service Recipient Information</Text>
-                    </View>
-                    <View style={styles.container}>
-                        <View style={styles.viewcon}>
-                            <Text style={styles.textL}>Last Name</Text>
+                    <View style={{marginBottom: 16}}>
+                        <View style={styles.viewTitle}>
+                            <Text style={styles.textTille}>Service Recipient Information</Text>
                         </View>
-                        <View style={styles.viewcon}>
-                            <Text style={styles.textR}>{obj.lastName}</Text>
-                        </View>
-                    </View>
-                    <View style={styles.container}>
-                        <View style={styles.viewcon}>
-                            <Text style={styles.textL}>First Name</Text>
-                        </View>
-                        <View style={styles.viewcon}>
-                            <Text style={styles.textR}>{obj.firstName}</Text>
-                        </View>
-                    </View>
-                    <View style={styles.container}>
-                        <View style={styles.viewcon}>
-                            <Text style={styles.textL}>Home Phone</Text>
-                        </View>
-                        <View style={styles.viewcon}>
-                            <Text style={styles.textR}>{obj.homePhone}</Text>
-                        </View>
-                    </View>
-                    <View style={styles.container}>
-                        <View style={styles.viewcon}>
-                            <Text style={styles.textL}>Work Phone</Text>
-                        </View>
-                        <View style={styles.viewcon}>
-                            <Text style={styles.textR}>{obj.workPhone}</Text>
-                        </View>
-                    </View>
-                    <View style={styles.container}>
-                        <View style={{
-                            width: width / 2,
-                            borderLeftWidth: 1,
-                            borderLeftColor: '#E0E0E0',
-                            borderTopWidth: 1,
-                            borderBottomWidth: 1,
-                            borderBottomColor: '#E0E0E0',
-                            borderTopColor: '#E0E0E0'
-                        }}>
-                            <Text style={styles.textL}>Cell Phone</Text>
-                        </View>
-                        <View style={{
-                            width: width / 2,
-                            borderLeftWidth: 1,
-                            borderLeftColor: '#E0E0E0',
-                            borderTopWidth: 1,
-                            borderBottomWidth: 1,
-                            borderBottomColor: '#E0E0E0',
-                            borderTopColor: '#E0E0E0'
-                        }}>
-                            <Text style={styles.textR}>{obj.cellPhone}</Text>
-                        </View>
+                        <ScrollView
+                            directionalLockEnabled={false}
+                            horizontal={true}
+                            style={{borderColor: '#E0E0E0', borderWidth: 1, margin: 5}}>
+
+                            <View style={{backgroundColor: 'white'}}>
+                                <View style={{
+                                    flexDirection: 'row',
+                                    alignContent: 'center',
+                                    backgroundColor: '#eeeeee',
+                                    borderBottomColor: '#E0E0E0',
+                                    paddingBottom: 5,
+                                    paddingTop: 5,
+                                    borderBottomWidth: 1
+                                }}>
+                                    <View style={styles.styleItem}>
+                                        <Text style={styles.styleTitle}>
+                                            Last Name
+                                        </Text>
+                                    </View>
+                                    <View style={styles.styleItem}>
+                                        <Text style={styles.styleTitle}>
+                                            First Name
+                                        </Text>
+                                    </View>
+                                    <View style={styles.styleItem}>
+                                        <Text style={styles.styleTitle}>
+                                            Home Phone
+                                        </Text>
+                                    </View>
+                                    <View style={styles.styleItem}>
+                                        <Text style={styles.styleTitle}>
+                                            Work Phone
+                                        </Text>
+                                    </View>
+                                    <View style={styles.styleItem}>
+                                        <Text style={styles.styleTitle}>
+                                            Cell Phone
+                                        </Text>
+                                    </View>
+
+                                </View>
+                                <View style={{
+                                    flexDirection: 'row',
+                                    alignContent: 'center',
+                                    paddingBottom: 2,
+                                    justifyContent: 'center',
+                                    paddingTop: 2,
+                                }}>
+                                    <View style={styles.styleItem}>
+                                        <Text style={styles.styleValue}>
+                                            {obj.lastName}
+                                        </Text>
+                                    </View>
+                                    <View style={styles.styleItem}>
+                                        <Text style={styles.styleValue}>
+                                            {obj.firstName}
+                                        </Text>
+                                    </View>
+                                    <View style={styles.styleItem}>
+                                        <Text style={styles.styleValue}>
+                                            {obj.homePhone}
+                                        </Text>
+                                    </View>
+                                    <View style={styles.styleItem}>
+                                        <Text style={styles.styleValue}>
+                                            {obj.workPhone}
+                                        </Text>
+                                    </View>
+                                    <View style={styles.styleItem}>
+                                        <Text style={styles.styleValue}>
+                                            {obj.cellPhone}
+                                        </Text>
+                                    </View>
+                                </View>
+                            </View>
+                        </ScrollView>
                     </View>
                 </View>
             );
@@ -1526,24 +1645,7 @@ export default class Details extends Component {
 
                         {this.hideView(params.dataShedule.appNbr)}
 
-                        <View style={{flexDirection: 'row', marginTop: 30}}>
-                            <TouchableOpacity onPress={() => {
-                                this._onPressCancel(params.dataShedule)
-                            }}>
-                                <View style={{
-                                    width: 150,
-                                    height: 30,
-                                    backgroundColor: '#F44336',
-                                    justifyContent: 'center',
-                                    alignItems: 'center',
-                                    marginLeft: 10,
-                                    marginBottom: 10
-                                }}>
-                                    <Text>Cancel Appointment</Text>
-                                </View>
-                            </TouchableOpacity>
-                        </View>
-
+                        {this.cancel()}
 
                     </ScrollView>
                 </View>
