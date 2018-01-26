@@ -71,7 +71,7 @@ export default class Details extends Component {
             })
         }
 
-        NetInfo.isConnected.fetch().done((isConnected) => {
+        NetInfo.isConnected.fetch().then((isConnected) => {
             if ( isConnected )
             {
                 AsyncStorage.getItem('token').then((value) => {

@@ -93,7 +93,7 @@ class DetailsTimeFinish extends Component {
     }
 
     componentWillMount() {
-        NetInfo.isConnected.fetch().done((isConnected) => {
+        NetInfo.isConnected.fetch().then((isConnected) => {
             if (isConnected) {
                 AsyncStorage.getItem('token').then((value) => {
                     fetch(URL + URL_IDTIMEFINISH + this.props.navigation.state.params.id, {
@@ -558,7 +558,7 @@ _onPressSave = async () => {
                         this.setState({dura: Math.round((diff1 / (3600 * 1000)) * factor) / factor});
                         this.setState({duraMin: Math.round((diff1 / (60 * 1000)) * factor) / factor});
 
-                        NetInfo.isConnected.fetch().done((isConnected) => {
+                        NetInfo.isConnected.fetch().then((isConnected) => {
                             if ( isConnected )
                             {
                                 AsyncStorage.getItem('token').then((value) => {

@@ -43,7 +43,7 @@ class DetailsFolder extends Component {
     }
 
     componentWillMount(){
-        NetInfo.isConnected.fetch().done((isConnected) => {
+        NetInfo.isConnected.fetch().then((isConnected) => {
             if ( isConnected )
             {
                 AsyncStorage.getItem('token').then((value) => {

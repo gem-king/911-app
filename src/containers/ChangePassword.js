@@ -48,7 +48,7 @@ export default class ChangePassword extends Component {
 
     _onChangePass() {
         Keyboard.dismiss();
-        NetInfo.isConnected.fetch().done((isConnected) => {
+        NetInfo.isConnected.fetch().then((isConnected) => {
             if ( isConnected )
             {
                 AsyncStorage.getItem('pass').then(value => {

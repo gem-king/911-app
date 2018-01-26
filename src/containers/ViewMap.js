@@ -43,7 +43,7 @@ export default class ViewMap extends Component {
 
     componentWillMount() {
         console.log("url", URL + URL_LANGUAGE + this.props.navigation.state.params.id)
-        NetInfo.isConnected.fetch().done((isConnected) => {
+        NetInfo.isConnected.fetch().then((isConnected) => {
             if ( isConnected )
             {
                 AsyncStorage.getItem('token').then((value) => {
