@@ -4,11 +4,25 @@ import {
     View,
     Text,
     StyleSheet,
-
+    TouchableOpacity
 
 } from 'react-native';
+import Icon from 'react-native-vector-icons/dist/Ionicons'
 
 export default class InfoProfile extends Component{
+
+    static navigationOptions = ({ navigation}) => {
+        const {state} = navigation;
+        return {
+            headerLeft:
+                <TouchableOpacity onPress={() => {
+                    navigation.goBack()
+                }}>
+                    <Icon name="ios-arrow-back" size={30} style={{marginLeft: 7}} color="white"></Icon>
+                </TouchableOpacity>
+        }
+
+    };
 
     constructor(props){
         super(props)

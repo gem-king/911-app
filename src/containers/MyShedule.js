@@ -63,8 +63,6 @@ class MyShedule extends Component {
                 <Icon name="menu" size={30} style={{marginLeft: 7}} color="white"/>
             </TouchableOpacity>
         }
-
-
     }
 
     constructor(props) {
@@ -77,6 +75,7 @@ class MyShedule extends Component {
             time: '8-30',
             net: null
         };
+
         AsyncStorage.getItem('timer').then((timer) => {
             if (timer === null) {
                 this.setState({
@@ -141,7 +140,7 @@ class MyShedule extends Component {
     fetchData = () => {
         NetInfo.isConnected.fetch().then(isConnected => {
             this.setState({net:isConnected});
-            if (this.state.net)
+            if (this.state.net == true)
             {
                 AsyncStorage.getItem('token').then((value) => {
                     fetch((URL + URL_SHEDULE + "&page=0&size=1000"), {
@@ -172,9 +171,8 @@ class MyShedule extends Component {
                     handleFirstConnectivityChange.bind(this)
                 );
             }
-            else
+            if(this.state.net == false)
             {
-                alert("Network request failed")
                 NetInfo.isConnected.addEventListener(
                     'connectionChange',
                     handleFirstConnectivityChange.bind(this)
@@ -183,17 +181,20 @@ class MyShedule extends Component {
         });
 
         function handleFirstConnectivityChange(isConnected) {
-            console.log("nnnn2",isConnected);
+            console.log("n2",isConnected);
+            clearInterval(this.check)
             this.setState({net:isConnected});
             if(this.state.net == true){
                 this.fetchData();
-            }else {
+            }if(this.state.net == false) {
+                console.log("dmmmmmmmmmmmmmm")
+                alert("Network request failed")
                 NetInfo.isConnected.addEventListener(
                     'connectionChange',
                     handleFirstConnectivityChange.bind(this)
                 );
             }
-            console.log("network2",this.state.net);
+            console.log("net2",this.state.net);
         }
     }
 

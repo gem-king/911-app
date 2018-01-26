@@ -27,6 +27,8 @@ export default class Login extends Component {
 
     constructor(props) {
         super(props)
+
+        this.mang = false;
         this.state = {
             email: '',
             pass: '',
@@ -35,37 +37,40 @@ export default class Login extends Component {
             isLoading: false,
             alert: false,
             invalid: false,
-            noaccount: false
+            noaccount: false,
         }
-
-        this.mang = false;
-
+        this.test = 0;
+        
         NetInfo.isConnected.fetch().then(isConnected => {
             // console.log('First, is ' + (isConnected ? 'online' : 'offline'));
             console.log("nnnn1",isConnected);
-            this.mang = isConnected;
-            console.log("network1",this.mang);
-        });
-        function handleFirstConnectivityChange(isConnected) {
+             this.mang = isConnected;
+             console.log("network1",this.mang);
+          });
+          function handleFirstConnectivityChange(isConnected) {
             // console.log('Then, is ' + (isConnected ? 'online' : 'offline'));
             console.log("nnnn2",isConnected);
-            this.mang = isConnected;
-            this.a = 1;
-            console.log("network2",this.mang);
-            NetInfo.isConnected.removeEventListener(
+             this.mang = isConnected;
+             this.a = 1;
+             console.log("network2",this.mang);
+             NetInfo.isConnected.removeEventListener(
                 'connectionChange',
                 handleFirstConnectivityChange
-            );
-        }
+              );
+          }
 
-        NetInfo.isConnected.addEventListener(
+          NetInfo.isConnected.addEventListener(
             'connectionChange',
             handleFirstConnectivityChange.bind(this)
-        );
-        this._onPress = this._onPress.bind(this);
+          );
+          console.log("network3",this.mang);
+          this._onPress = this._onPress.bind(this);
+          console.log("network4",this.mang);
     }
 
     componentWillMount(){
+
+        
 
     }
 

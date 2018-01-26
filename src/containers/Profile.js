@@ -42,6 +42,7 @@ class Profile extends Component {
             time: '8-30',
             myAccount: '',
             check: '',
+            net:null
         }
     }
 
@@ -54,7 +55,7 @@ class Profile extends Component {
 
         NetInfo.isConnected.fetch().then(isConnected => {
             this.setState({net:isConnected});
-            if (this.state.net)
+            if (this.state.net == true)
             {
                 AsyncStorage.getItem('token').then((value) => {
                     fetch(URL + URL_ACOUNT, {
@@ -95,7 +96,7 @@ class Profile extends Component {
                     handleFirstConnectivityChange.bind(this)
                 );
             }
-            else
+            if(this.state.net == false)
             {
                 // alert("Network request failed")
                 NetInfo.isConnected.addEventListener(
@@ -110,7 +111,7 @@ class Profile extends Component {
             this.setState({net:isConnected});
             if(this.state.net == true){
                 this.componentWillMount();
-            }else {
+            }if(this.state.net == false) {
                 // alert("Network request failed")
                 NetInfo.isConnected.addEventListener(
                     'connectionChange',
@@ -119,50 +120,6 @@ class Profile extends Component {
             }
             console.log("network2",this.state.net);
         }
-
-        // NetInfo.isConnected.fetch().done((isConnected) => {
-        //     if ( isConnected )
-        //     {
-        //         AsyncStorage.getItem('token').then((value) => {
-        //             fetch(URL + URL_ACOUNT, {
-        //                 method: "GET",
-        //                 headers: {
-        //                     'Authorization': value,
-        //                 }
-        //             })
-        //                 .then((response) => response.json())
-        //                 .then((responseData) => {
-        //
-        //                     fetch(URL + URL_ID + responseData.id, {
-        //                         method: "GET",
-        //                         headers: {
-        //                             'Authorization': value,
-        //                         }
-        //                     })
-        //                         .then((response2) => response2.json())
-        //                         .then((responseData2) => {
-        //                             fetch(URL + URL_LANGUAGE + responseData2, {
-        //                                 method: "GET",
-        //                                 headers: {
-        //                                     'Authorization': value,
-        //                                 }
-        //                             })
-        //                                 .then((response3) => response3.json())
-        //                                 .then((responseData3) => {
-        //                                     this.setState({
-        //                                         account: responseData3
-        //                                     })
-        //                                 })
-        //                         })
-        //                 })
-        //                 .done();
-        //         });
-        //     }
-        //     else
-        //     {
-        //         alert("Network request failed")
-        //     }
-        // });
     }
 
     componentDidMount() {

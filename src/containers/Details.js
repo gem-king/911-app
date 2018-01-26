@@ -12,7 +12,7 @@ import {
     FlatList
 } from 'react-native';
 import Dimensions from 'Dimensions';
-import Icon from 'react-native-vector-icons/FontAwesome';
+import Icon from 'react-native-vector-icons/Ionicons';
 import {URL, URL_CANCEL, URL_CUSTOMER, URL_IDTIMEFINISH, URL_TIMEFINISH} from "../components/const";
 
 var {height, width} = Dimensions.get('window');
@@ -30,6 +30,20 @@ import {NavigationActions} from 'react-navigation'
 
 
 export default class Details extends Component {
+
+    static navigationOptions = ({ navigation}) => {
+        const {state} = navigation;
+        return {
+            headerLeft:
+                <TouchableOpacity onPress={() => {
+                    navigation.goBack()
+                }}>
+                    <Icon name="ios-arrow-back" size={30} style={{marginLeft: 7}} color="white"></Icon>
+                </TouchableOpacity>
+        }
+
+    };
+
     constructor(props) {
         super(props)
         this.state = {

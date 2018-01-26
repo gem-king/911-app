@@ -14,7 +14,7 @@ import {
     FlatList
 } from 'react-native';
 import Dimensions from 'Dimensions';
-import Icon from 'react-native-vector-icons/FontAwesome';
+import Icon from 'react-native-vector-icons/Ionicons';
 import {URL, URL_CUSTOMER, URL_DECLINE, URL_IDTIMEFINISH, URL_TAKE, URL_TIMEFINISH} from "../components/const";
 import {connect} from 'react-redux';
 
@@ -29,6 +29,19 @@ if (DEVICE_WIDTH>=500){
 }
 
 class DetailsFolder extends Component {
+    
+    static navigationOptions = ({ navigation}) => {
+        const {state} = navigation;
+        return {
+            headerLeft:
+                <TouchableOpacity onPress={() => {
+                    navigation.goBack()
+                }}>
+                    <Icon name="ios-arrow-back" size={30} style={{marginLeft: 7}} color="white"></Icon>
+                </TouchableOpacity>
+        }
+
+    };
 
     constructor(props){
         super(props);

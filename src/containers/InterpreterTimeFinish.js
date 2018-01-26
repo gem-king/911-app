@@ -68,7 +68,7 @@ export default class InterpreterTimeFinish extends Component{
             isLoading: true,
             refresh: false,
             page:0,
-            net: null
+            net:null
         };
     }
 
@@ -77,7 +77,8 @@ export default class InterpreterTimeFinish extends Component{
     componentWillMount () {
         NetInfo.isConnected.fetch().then(isConnected => {
             this.setState({net:isConnected});
-            if (this.state.net)
+            console.log("network1", this.state.net)
+            if (this.state.net == true)
             {
                 AsyncStorage.getItem('token').then((value) => {
                     fetch(URL + URL_TIMEFINISH + "&page=0&size=1000", {
@@ -100,8 +101,7 @@ export default class InterpreterTimeFinish extends Component{
                     'connectionChange',
                     handleFirstConnectivityChange.bind(this)
                 );
-            }
-            else
+            }if(this.state.net == false)
             {
                 // alert("Network request failed")
                 NetInfo.isConnected.addEventListener(
@@ -116,7 +116,7 @@ export default class InterpreterTimeFinish extends Component{
             this.setState({net:isConnected});
             if(this.state.net == true){
                 this.fetchData();
-            }else {
+            }if(this.state.net == false) {
                 // alert("Network request failed")
                 NetInfo.isConnected.addEventListener(
                     'connectionChange',
@@ -183,7 +183,6 @@ export default class InterpreterTimeFinish extends Component{
     };
 
     render() {
-
         if (this.state.isLoading) {
             return (
                 <View style={{flex: 1,justifyContent:'center', alignItems: 'center', backgroundColor: '#718792'}}>
