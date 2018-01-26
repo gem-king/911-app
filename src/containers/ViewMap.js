@@ -13,11 +13,26 @@ import {
 
 import MapView from 'react-native-maps';
 import Polyline from '@mapbox/polyline';
+import Icon from 'react-native-vector-icons/Ionicons';
 import LocationServicesDialogBox from "react-native-android-location-services-dialog-box";
 import Geocoder from "react-native-geocoding";
 import {URL, URL_CUSTOMER, URL_LANGUAGE, URL_TIMEFINISH} from "../components/const";
 
 export default class ViewMap extends Component {
+
+    static navigationOptions = ({ navigation}) => {
+        const {state} = navigation;
+        return {
+            headerLeft:
+                <TouchableOpacity onPress={() => {
+                    navigation.goBack()
+                }}>
+                    <Icon name="ios-arrow-back" size={30} style={{marginLeft: 7}} color="white"></Icon>
+                </TouchableOpacity>
+        }
+
+    };
+
     constructor(props) {
         super(props);
         this.state = {
@@ -46,24 +61,28 @@ export default class ViewMap extends Component {
         NetInfo.isConnected.fetch().then((isConnected) => {
             if ( isConnected )
             {
-                AsyncStorage.getItem('token').then((value) => {
-                    fetch(URL + URL_LANGUAGE + this.props.navigation.state.params.id, {
-                        method: "GET",
-                        headers: {
-                            'Authorization': value,
-                            'Content-Type': 'application/json',
-                        }
-                    })
-                        .then((response3) => response3.json())
-                        .then((responseData3) => {
-                            console.log("key" , responseData3)
-                            this.setState({
-                                hoAddress: responseData3
-                            })
-
-                            this.getPosition()
+                try {
+                    AsyncStorage.getItem('token').then((value) => {
+                        fetch(URL + URL_LANGUAGE + this.props.navigation.state.params.id, {
+                            method: "GET",
+                            headers: {
+                                'Authorization': value,
+                                'Content-Type': 'application/json',
+                            }
                         })
-                });
+                            .then((response3) => response3.json())
+                            .then((responseData3) => {
+                                console.log("key", responseData3)
+                                this.setState({
+                                    hoAddress: responseData3
+                                })
+
+                                this.getPosition()
+                            })
+                    });
+                }catch (er){
+                    console.log(er)
+                }
             }
             else
             {

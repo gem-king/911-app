@@ -57,40 +57,44 @@ class Profile extends Component {
             this.setState({net:isConnected});
             if (this.state.net == true)
             {
-                AsyncStorage.getItem('token').then((value) => {
-                    fetch(URL + URL_ACOUNT, {
-                        method: "GET",
-                        headers: {
-                            'Authorization': value,
-                        }
-                    })
-                        .then((response) => response.json())
-                        .then((responseData) => {
-
-                            fetch(URL + URL_ID + responseData.id, {
-                                method: "GET",
-                                headers: {
-                                    'Authorization': value,
-                                }
-                            })
-                                .then((response2) => response2.json())
-                                .then((responseData2) => {
-                                    fetch(URL + URL_LANGUAGE + responseData2, {
-                                        method: "GET",
-                                        headers: {
-                                            'Authorization': value,
-                                        }
-                                    })
-                                        .then((response3) => response3.json())
-                                        .then((responseData3) => {
-                                            this.setState({
-                                                account: responseData3
-                                            })
-                                        })
-                                })
+                try {
+                    AsyncStorage.getItem('token').then((value) => {
+                        fetch(URL + URL_ACOUNT, {
+                            method: "GET",
+                            headers: {
+                                'Authorization': value,
+                            }
                         })
-                        .done();
-                });
+                            .then((response) => response.json())
+                            .then((responseData) => {
+
+                                fetch(URL + URL_ID + responseData.id, {
+                                    method: "GET",
+                                    headers: {
+                                        'Authorization': value,
+                                    }
+                                })
+                                    .then((response2) => response2.json())
+                                    .then((responseData2) => {
+                                        fetch(URL + URL_LANGUAGE + responseData2, {
+                                            method: "GET",
+                                            headers: {
+                                                'Authorization': value,
+                                            }
+                                        })
+                                            .then((response3) => response3.json())
+                                            .then((responseData3) => {
+                                                this.setState({
+                                                    account: responseData3
+                                                })
+                                            })
+                                    })
+                            })
+                            .done();
+                    });
+                }catch (er){
+                    console.log(er)
+                }
                 NetInfo.isConnected.addEventListener(
                     'connectionChange',
                     handleFirstConnectivityChange.bind(this)

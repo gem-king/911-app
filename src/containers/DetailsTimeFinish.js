@@ -108,97 +108,101 @@ class DetailsTimeFinish extends Component {
     componentWillMount() {
         NetInfo.isConnected.fetch().then((isConnected) => {
             if (isConnected) {
-                AsyncStorage.getItem('token').then((value) => {
-                    fetch(URL + URL_IDTIMEFINISH + this.props.navigation.state.params.id, {
-                        method: "GET",
-                        headers: {
-                            'Authorization': value,
-                            'Content-Type': 'application/json',
-                        }
-                    })
-                        .then((response) => response.json())
-                        .then((responseData) => {
-                            console.log("data", responseData);
-                            this.setState({
-                                isLoading: false,
-                                dataSource: responseData,
+                try {
+                    AsyncStorage.getItem('token').then((value) => {
+                        fetch(URL + URL_IDTIMEFINISH + this.props.navigation.state.params.id, {
+                            method: "GET",
+                            headers: {
+                                'Authorization': value,
+                                'Content-Type': 'application/json',
+                            }
+                        })
+                            .then((response) => response.json())
+                            .then((responseData) => {
+                                console.log("data", responseData);
+                                this.setState({
+                                    isLoading: false,
+                                    dataSource: responseData,
+                                });
+                            })
+
+                        fetch(URL + URL_BILL + this.props.navigation.state.params.custo, {
+                            method: "GET",
+                            headers: {
+                                'Authorization': value,
+                                'Content-Type': 'application/json',
+                            }
+                        }).then((response) => response.json())
+                            .then((data) => {
+
+                                console.log("Bill", data);
+                                this.setState({
+                                    dataBill: data
+                                })
                             });
-                        })
 
-                    fetch(URL + URL_BILL + this.props.navigation.state.params.custo, {
-                        method: "GET",
-                        headers: {
-                            'Authorization': value,
-                            'Content-Type': 'application/json',
-                        }
-                    }).then((response) => response.json())
-                        .then((data) => {
-
-                            console.log("Bill", data);
-                            this.setState({
-                                dataBill: data
+                        fetch(URL + URL_PAY + this.props.navigation.state.params.cover, {
+                            method: "GET",
+                            headers: {
+                                'Authorization': value,
+                                'Content-Type': 'application/json',
+                            }
+                        }).then((responsePay) => responsePay.json())
+                            .then((dataPay) => {
+                                console.log("Pay", dataPay);
+                                this.setState({
+                                    dataPay: dataPay
+                                })
                             })
-                        });
 
-                    fetch(URL + URL_PAY + this.props.navigation.state.params.cover, {
-                        method: "GET",
-                        headers: {
-                            'Authorization': value,
-                            'Content-Type': 'application/json',
-                        }
-                    }).then((responsePay) => responsePay.json())
-                        .then((dataPay) => {
-                            console.log("Pay", dataPay);
-                            this.setState({
-                                dataPay: dataPay
-                            })
+                        fetch(URL + "api/noi-departments/" + this.props.navigation.state.params.depart, {
+                            method: "GET",
+                            headers: {
+                                'Authorization': value,
+                                'Content-Type': 'application/json',
+                            }
                         })
+                            .then((response3) => response3.json())
+                            .then((responseData3) => {
+                                this.setState({
+                                    department: responseData3
+                                })
+                            })
+                            .done();
 
-                    fetch(URL + "api/noi-departments/" + this.props.navigation.state.params.depart, {
-                        method: "GET",
-                        headers: {
-                            'Authorization': value,
-                            'Content-Type': 'application/json',
-                        }
-                    })
-                        .then((response3) => response3.json())
-                        .then((responseData3) => {
-                            this.setState({
-                                department: responseData3
-                            })
+                        fetch(URL + URL_CUSTOMER + this.props.navigation.state.params.custo, {
+                            method: "GET",
+                            headers: {
+                                'Authorization': value,
+                                'Content-Type': 'application/json',
+                            }
                         })
-                        .done();
+                            .then((response4) => response4.json())
+                            .then((responseData4) => {
+                                this.setState({
+                                    customer: responseData4
+                                })
+                            })
+                            .done();
 
-                    fetch(URL + URL_CUSTOMER + this.props.navigation.state.params.custo, {
-                        method: "GET",
-                        headers: {
-                            'Authorization': value,
-                            'Content-Type': 'application/json',
-                        }
-                    })
-                        .then((response4) => response4.json())
-                        .then((responseData4) => {
-                            this.setState({
-                                customer: responseData4
-                            })
+                        fetch(URL + "api/noi-clinic-venues/" + this.props.navigation.state.params.clinic, {
+                            method: "GET",
+                            headers: {
+                                'Authorization': value,
+                                'Content-Type': 'application/json',
+                            }
                         })
-                        .done();
-
-                    fetch(URL + "api/noi-clinic-venues/" + this.props.navigation.state.params.clinic, {
-                        method: "GET",
-                        headers: {
-                            'Authorization': value,
-                            'Content-Type': 'application/json',
-                        }
-                    })
-                        .then((response5) => response5.json())
-                        .then((responseData5) => {
-                            this.setState({
-                                clinic: responseData5
+                            .then((response5) => response5.json())
+                            .then((responseData5) => {
+                                this.setState({
+                                    clinic: responseData5
+                                })
                             })
-                        })
-                        .done();
-                });
+                            .done();
+                    });
+                }catch (er){
+                    console.log(er)
+                }
             }
             else {
                 alert("Network request failed")

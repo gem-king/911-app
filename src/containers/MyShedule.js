@@ -142,30 +142,34 @@ class MyShedule extends Component {
             this.setState({net:isConnected});
             if (this.state.net == true)
             {
-                AsyncStorage.getItem('token').then((value) => {
-                    fetch((URL + URL_SHEDULE + "&page=0&size=1000"), {
-                        method: "GET",
-                        headers: {
-                            'Authorization': value,
-                            'Content-Type': 'application/json',
-                        }
-                    })
-                        .then((response) => response.json())
-                        .then((data4) => {
+                try {
+                    AsyncStorage.getItem('token').then((value) => {
+                        fetch((URL + URL_SHEDULE + "&page=0&size=1000"), {
+                            method: "GET",
+                            headers: {
+                                'Authorization': value,
+                                'Content-Type': 'application/json',
+                            }
+                        })
+                            .then((response) => response.json())
+                            .then((data4) => {
 
-                            let arrData = this.fillterColor(data4.content);
-                            this.setState({
-                                ...this.state,
-                                isLoading: false,
-                                dataSource: arrData,
+                                let arrData = this.fillterColor(data4.content);
+                                this.setState({
+                                    ...this.state,
+                                    isLoading: false,
+                                    dataSource: arrData,
+                                })
+
+                                this.excuceAlarm();
                             })
-
-                            this.excuceAlarm();
-                        })
-                        .catch((error) => {
-                            console.log(error)
-                        })
-                });
+                            .catch((error) => {
+                                console.log(error)
+                            })
+                    });
+                }catch (er){
+                    console.log(er)
+                }
                 NetInfo.isConnected.addEventListener(
                     'connectionChange',
                     handleFirstConnectivityChange.bind(this)
@@ -173,6 +177,7 @@ class MyShedule extends Component {
             }
             if(this.state.net == false)
             {
+                alert("Network request failed")
                 NetInfo.isConnected.addEventListener(
                     'connectionChange',
                     handleFirstConnectivityChange.bind(this)
@@ -181,14 +186,12 @@ class MyShedule extends Component {
         });
 
         function handleFirstConnectivityChange(isConnected) {
-            console.log("n2",isConnected);
-            clearInterval(this.check)
             this.setState({net:isConnected});
             if(this.state.net == true){
                 this.fetchData();
             }if(this.state.net == false) {
-                console.log("dmmmmmmmmmmmmmm")
-                alert("Network request failed")
+                // console.log("dmmmmmmmmmmmmmm")
+                // alert("Network request failed")
                 NetInfo.isConnected.addEventListener(
                     'connectionChange',
                     handleFirstConnectivityChange.bind(this)

@@ -88,68 +88,72 @@ export default class Details extends Component {
         NetInfo.isConnected.fetch().then((isConnected) => {
             if ( isConnected )
             {
-                AsyncStorage.getItem('token').then((value) => {
-                    fetch(URL + URL_IDTIMEFINISH + this.props.navigation.state.params.id, {
-                        method: "GET",
-                        headers: {
-                            'Authorization': value,
-                            'Content-Type': 'application/json',
-                        }
-                    })
-                        .then((response) => response.json())
-                        .then((responseData) => {
-                            console.log('456', responseData)
-                            this.setState({
-                                isLoading: false,
-                                dataSource: responseData,
-                            });
+                try {
+                    AsyncStorage.getItem('token').then((value) => {
+                        fetch(URL + URL_IDTIMEFINISH + this.props.navigation.state.params.id, {
+                            method: "GET",
+                            headers: {
+                                'Authorization': value,
+                                'Content-Type': 'application/json',
+                            }
                         })
-
-                    fetch(URL + "api/noi-departments/" + this.props.navigation.state.params.depart, {
-                        method: "GET",
-                        headers: {
-                            'Authorization': value,
-                            'Content-Type': 'application/json',
-                        }
-                    })
-                        .then((response3) => response3.json())
-                        .then((responseData3) => {
-                            this.setState({
-                                department: responseData3
+                            .then((response) => response.json())
+                            .then((responseData) => {
+                                console.log('456', responseData)
+                                this.setState({
+                                    isLoading: false,
+                                    dataSource: responseData,
+                                });
                             })
-                        })
-                        .done();
 
-                    fetch(URL + URL_CUSTOMER + this.props.navigation.state.params.custo, {
-                        method: "GET",
-                        headers: {
-                            'Authorization': value,
-                            'Content-Type': 'application/json',
-                        }
-                    })
-                        .then((response4) => response4.json())
-                        .then((responseData4) => {
-                            this.setState({
-                                customer: responseData4
-                            })
+                        fetch(URL + "api/noi-departments/" + this.props.navigation.state.params.depart, {
+                            method: "GET",
+                            headers: {
+                                'Authorization': value,
+                                'Content-Type': 'application/json',
+                            }
                         })
-                        .done();
+                            .then((response3) => response3.json())
+                            .then((responseData3) => {
+                                this.setState({
+                                    department: responseData3
+                                })
+                            })
+                            .done();
 
-                    fetch(URL + "api/noi-clinic-venues/" + this.props.navigation.state.params.clinic, {
-                        method: "GET",
-                        headers: {
-                            'Authorization': value,
-                            'Content-Type': 'application/json',
-                        }
-                    })
-                        .then((response5) => response5.json())
-                        .then((responseData5) => {
-                            this.setState({
-                                clinic: responseData5
-                            })
+                        fetch(URL + URL_CUSTOMER + this.props.navigation.state.params.custo, {
+                            method: "GET",
+                            headers: {
+                                'Authorization': value,
+                                'Content-Type': 'application/json',
+                            }
                         })
-                        .done();
-                });
+                            .then((response4) => response4.json())
+                            .then((responseData4) => {
+                                this.setState({
+                                    customer: responseData4
+                                })
+                            })
+                            .done();
+
+                        fetch(URL + "api/noi-clinic-venues/" + this.props.navigation.state.params.clinic, {
+                            method: "GET",
+                            headers: {
+                                'Authorization': value,
+                                'Content-Type': 'application/json',
+                            }
+                        })
+                            .then((response5) => response5.json())
+                            .then((responseData5) => {
+                                this.setState({
+                                    clinic: responseData5
+                                })
+                            })
+                            .done();
+                    });
+                }catch (er){
+                    console.log(er)
+                }
             }
             else
             {
