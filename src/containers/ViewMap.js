@@ -7,6 +7,7 @@ import {
     Alert,
     Text,
     AsyncStorage,
+    TouchableOpacity,
     ActivityIndicator,
     NetInfo
 } from 'react-native';

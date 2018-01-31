@@ -177,7 +177,7 @@ class MyShedule extends Component {
             }
             if(this.state.net == false)
             {
-                alert("Network request failed")
+                // alert("Network request failed")
                 NetInfo.isConnected.addEventListener(
                     'connectionChange',
                     handleFirstConnectivityChange.bind(this)
@@ -190,8 +190,7 @@ class MyShedule extends Component {
             if(this.state.net == true){
                 this.fetchData();
             }if(this.state.net == false) {
-                // console.log("dmmmmmmmmmmmmmm")
-                // alert("Network request failed")
+                alert("Network request failed")
                 NetInfo.isConnected.addEventListener(
                     'connectionChange',
                     handleFirstConnectivityChange.bind(this)
