@@ -18,7 +18,7 @@ export default class InfoProfile extends Component{
                 <TouchableOpacity onPress={() => {
                     navigation.goBack()
                 }}>
-                    <Icon name="ios-arrow-back" size={30} style={{marginLeft: 7}} color="white"></Icon>
+                    <Icon name="ios-arrow-back" size={30} style={{marginLeft: 15}} color="white"></Icon>
                 </TouchableOpacity>
         }
 

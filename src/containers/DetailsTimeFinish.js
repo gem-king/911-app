@@ -46,7 +46,7 @@ class DetailsTimeFinish extends Component {
                 <TouchableOpacity onPress={() => {
                     navigation.goBack()
                 }}>
-                    <Icon name="ios-arrow-back" size={30} style={{marginLeft: 7}} color="white"></Icon>
+                    <Icon name="ios-arrow-back" size={30} style={{marginLeft: 15}} color="white"></Icon>
                 </TouchableOpacity>
         }
 
@@ -860,14 +860,6 @@ location()
     }
 }
 
-notes(){
-        if(this.state.dataSource.subject != "" && this.state.dataSource.body != ""){
-            return this.state.dataSource.subject+", " +this.state.dataSource.body
-        }else{
-            return null
-        }
-    }
-
 hideView = (name)=>
 {
 
@@ -906,7 +898,7 @@ hideView = (name)=>
                 <View>
                     <View style={styles.viewLine}>
                         <View style={{flex: 1, flexDirection: 'column'}}>
-                            <Text>Covered By</Text>
+                            <Text>Interpreter’s Name</Text>
                             <Text
                                 style={styles.textin}>{this.state.dataSource.coverByFirstName} {this.state.dataSource.coverByLastName}</Text>
                         </View>
@@ -1017,23 +1009,17 @@ hideView = (name)=>
                     </View>
                 </View>
                 <View style={styles.container}>
-                    <View style={styles.viewcon}>
+                    <View style={{
+                        width: width / 2,
+                        borderLeftWidth: 1,
+                        borderLeftColor: '#E0E0E0',
+                        borderTopWidth: 1,
+                        borderBottomWidth: 1,
+                        borderBottomColor: '#E0E0E0',
+                        borderTopColor: '#E0E0E0'
+                    }}>
                         <Text style={styles.textL}>Requester Name</Text>
                     </View>
-                    <View style={styles.viewcon}>
-                        <Text
-                            style={styles.textR}>{this.state.dataSource.noiRequesterFirstName} {this.state.dataSource.noiRequesterLastName}</Text>
-                    </View>
-                </View>
-                <View style={styles.container}>
-                    <View style={styles.viewcon}>
-                        <Text style={styles.textL}>Requester Email</Text>
-                    </View>
-                    <View style={styles.viewcon}>
-                        <Text style={styles.textR}>{this.state.dataSource.noiRequesterEmail}</Text>
-                    </View>
-                </View>
-                <View style={styles.container}>
                     <View style={{
                         width: width / 2,
                         borderLeftWidth: 1,
@@ -1043,22 +1029,9 @@ hideView = (name)=>
                         borderBottomColor: '#E0E0E0',
                         borderTopColor: '#E0E0E0'
                     }}>
-                        <Text style={styles.textL}>Requester Phone</Text>
-                    </View>
-                    <View style={{
-                        width: width / 2,
-                        borderLeftWidth: 1,
-                        borderLeftColor: '#E0E0E0',
-                        borderTopWidth: 1,
-                        borderBottomWidth: 1,
-                        borderBottomColor: '#E0E0E0',
-                        borderTopColor: '#E0E0E0'
-                    }}>
-                        <Text style={styles.textR}>{this.state.dataSource.noiRequesterPhone}</Text>
+                        <Text style={styles.textR}>{this.state.dataSource.noiRequesterFirstName} {this.state.dataSource.noiRequesterLastName}</Text>
                     </View>
                 </View>
-
-
                 <View style={styles.viewTitle}>
                     <Text style={styles.textTille}>Appointment Information</Text>
                 </View>
@@ -1166,7 +1139,7 @@ hideView = (name)=>
                 <View>
                     <View style={styles.viewLine}>
                         <View style={{flex: 1, flexDirection: 'column'}}>
-                            <Text>Covered By</Text>
+                            <Text>Interpreter’s Name</Text>
                             <Text
                                 style={styles.textin}>{this.state.dataSource.coverByFirstName} {this.state.dataSource.coverByLastName}</Text>
                         </View>
@@ -1277,23 +1250,17 @@ hideView = (name)=>
                     </View>
                 </View>
                 <View style={styles.container}>
-                    <View style={styles.viewcon}>
+                    <View style={{
+                        width: width / 2,
+                        borderLeftWidth: 1,
+                        borderLeftColor: '#E0E0E0',
+                        borderTopWidth: 1,
+                        borderBottomWidth: 1,
+                        borderBottomColor: '#E0E0E0',
+                        borderTopColor: '#E0E0E0'
+                    }}>
                         <Text style={styles.textL}>Requester Name</Text>
                     </View>
-                    <View style={styles.viewcon}>
-                        <Text
-                            style={styles.textR}>{this.state.dataSource.noiRequesterFirstName} {this.state.dataSource.noiRequesterLastName}</Text>
-                    </View>
-                </View>
-                <View style={styles.container}>
-                    <View style={styles.viewcon}>
-                        <Text style={styles.textL}>Requester Email</Text>
-                    </View>
-                    <View style={styles.viewcon}>
-                        <Text style={styles.textR}>{this.state.dataSource.noiRequesterEmail}</Text>
-                    </View>
-                </View>
-                <View style={styles.container}>
                     <View style={{
                         width: width / 2,
                         borderLeftWidth: 1,
@@ -1303,22 +1270,9 @@ hideView = (name)=>
                         borderBottomColor: '#E0E0E0',
                         borderTopColor: '#E0E0E0'
                     }}>
-                        <Text style={styles.textL}>Requester Phone</Text>
-                    </View>
-                    <View style={{
-                        width: width / 2,
-                        borderLeftWidth: 1,
-                        borderLeftColor: '#E0E0E0',
-                        borderTopWidth: 1,
-                        borderBottomWidth: 1,
-                        borderBottomColor: '#E0E0E0',
-                        borderTopColor: '#E0E0E0'
-                    }}>
-                        <Text style={styles.textR}>{this.state.dataSource.noiRequesterPhone}</Text>
+                        <Text style={styles.textR}>{this.state.dataSource.noiRequesterFirstName} {this.state.dataSource.noiRequesterLastName}</Text>
                     </View>
                 </View>
-
-
                 <View style={styles.viewTitle}>
                     <Text style={styles.textTille}>Appointment Information</Text>
                 </View>
@@ -1332,7 +1286,7 @@ hideView = (name)=>
                 </View>
                 <View style={styles.container}>
                     <View style={styles.viewcon}>
-                        <Text style={styles.textL}>Cover By</Text>
+                        <Text style={styles.textL}>Interpreter’s Name</Text>
                     </View>
                     <View style={styles.viewcon}>
                         <Text
@@ -1372,14 +1326,6 @@ hideView = (name)=>
                     </View>
                 </View>
                 <View style={styles.container}>
-                    <View style={styles.viewcon}>
-                        <Text style={styles.textL}>Type of Call</Text>
-                    </View>
-                    <View style={styles.viewcon}>
-                        <Text style={styles.textR}>{this.typeOfCall(this.state.dataSource.callType)}</Text>
-                    </View>
-                </View>
-                <View style={styles.container}>
                     <View style={{
                         width: width / 2,
                         borderLeftWidth: 1,
@@ -1389,7 +1335,7 @@ hideView = (name)=>
                         borderBottomColor: '#E0E0E0',
                         borderTopColor: '#E0E0E0'
                     }}>
-                        <Text style={styles.textL}>Appointment Notes</Text>
+                        <Text style={styles.textL}>Type of Call</Text>
                     </View>
                     <View style={{
                         width: width / 2,
@@ -1401,7 +1347,7 @@ hideView = (name)=>
                         borderTopColor: '#E0E0E0'
                     }}>
                         <Text
-                            style={styles.textR}>{this.notes()}</Text>
+                            style={styles.textR}>{this.typeOfCall(this.state.dataSource.callType)}</Text>
                     </View>
                 </View>
                 <View style={{marginBottom: 16}}>
@@ -1609,23 +1555,17 @@ hideView = (name)=>
                     </View>
                 </View>
                 <View style={styles.container}>
-                    <View style={styles.viewcon}>
+                    <View style={{
+                        width: width / 2,
+                        borderLeftWidth: 1,
+                        borderLeftColor: '#E0E0E0',
+                        borderTopWidth: 1,
+                        borderBottomWidth: 1,
+                        borderBottomColor: '#E0E0E0',
+                        borderTopColor: '#E0E0E0'
+                    }}>
                         <Text style={styles.textL}>Requester Name</Text>
                     </View>
-                    <View style={styles.viewcon}>
-                        <Text
-                            style={styles.textR}>{this.state.dataSource.noiRequesterFirstName} {this.state.dataSource.noiRequesterLastName}</Text>
-                    </View>
-                </View>
-                <View style={styles.container}>
-                    <View style={styles.viewcon}>
-                        <Text style={styles.textL}>Requester Email</Text>
-                    </View>
-                    <View style={styles.viewcon}>
-                        <Text style={styles.textR}>{this.state.dataSource.noiRequesterEmail}</Text>
-                    </View>
-                </View>
-                <View style={styles.container}>
                     <View style={{
                         width: width / 2,
                         borderLeftWidth: 1,
@@ -1635,22 +1575,9 @@ hideView = (name)=>
                         borderBottomColor: '#E0E0E0',
                         borderTopColor: '#E0E0E0'
                     }}>
-                        <Text style={styles.textL}>Requester Phone</Text>
-                    </View>
-                    <View style={{
-                        width: width / 2,
-                        borderLeftWidth: 1,
-                        borderLeftColor: '#E0E0E0',
-                        borderTopWidth: 1,
-                        borderBottomWidth: 1,
-                        borderBottomColor: '#E0E0E0',
-                        borderTopColor: '#E0E0E0'
-                    }}>
-                        <Text style={styles.textR}>{this.state.dataSource.noiRequesterPhone}</Text>
+                        <Text style={styles.textR}>{this.state.dataSource.noiRequesterFirstName} {this.state.dataSource.noiRequesterLastName}</Text>
                     </View>
                 </View>
-
-
                 <View style={styles.viewTitle}>
                     <Text style={styles.textTille}>Appointment Information</Text>
                 </View>
@@ -1664,7 +1591,7 @@ hideView = (name)=>
                 </View>
                 <View style={styles.container}>
                     <View style={styles.viewcon}>
-                        <Text style={styles.textL}>Cover By</Text>
+                        <Text style={styles.textL}>Interpreter’s Name</Text>
                     </View>
                     <View style={styles.viewcon}>
                         <Text
@@ -1704,14 +1631,6 @@ hideView = (name)=>
                     </View>
                 </View>
                 <View style={styles.container}>
-                    <View style={styles.viewcon}>
-                        <Text style={styles.textL}>Type of Call</Text>
-                    </View>
-                    <View style={styles.viewcon}>
-                        <Text style={styles.textR}>{this.typeOfCall(this.state.dataSource.callType)}</Text>
-                    </View>
-                </View>
-                <View style={styles.container}>
                     <View style={{
                         width: width / 2,
                         borderLeftWidth: 1,
@@ -1721,7 +1640,7 @@ hideView = (name)=>
                         borderBottomColor: '#E0E0E0',
                         borderTopColor: '#E0E0E0'
                     }}>
-                        <Text style={styles.textL}>Appointment Notes</Text>
+                        <Text style={styles.textL}>Type of Call</Text>
                     </View>
                     <View style={{
                         width: width / 2,
@@ -1733,7 +1652,7 @@ hideView = (name)=>
                         borderTopColor: '#E0E0E0'
                     }}>
                         <Text
-                            style={styles.textR}>{this.notes()}</Text>
+                            style={styles.textR}>{this.typeOfCall(this.state.dataSource.callType)}</Text>
                     </View>
                 </View>
                 <View style={{marginBottom: 16}}>
@@ -1940,23 +1859,17 @@ hideView = (name)=>
                     </View>
                 </View>
                 <View style={styles.container}>
-                    <View style={styles.viewcon}>
+                    <View style={{
+                        width: width / 2,
+                        borderLeftWidth: 1,
+                        borderLeftColor: '#E0E0E0',
+                        borderTopWidth: 1,
+                        borderBottomWidth: 1,
+                        borderBottomColor: '#E0E0E0',
+                        borderTopColor: '#E0E0E0'
+                    }}>
                         <Text style={styles.textL}>Requester Name</Text>
                     </View>
-                    <View style={styles.viewcon}>
-                        <Text
-                            style={styles.textR}>{this.state.dataSource.noiRequesterFirstName} {this.state.dataSource.noiRequesterLastName}</Text>
-                    </View>
-                </View>
-                <View style={styles.container}>
-                    <View style={styles.viewcon}>
-                        <Text style={styles.textL}>Requester Email</Text>
-                    </View>
-                    <View style={styles.viewcon}>
-                        <Text style={styles.textR}>{this.state.dataSource.noiRequesterEmail}</Text>
-                    </View>
-                </View>
-                <View style={styles.container}>
                     <View style={{
                         width: width / 2,
                         borderLeftWidth: 1,
@@ -1966,18 +1879,7 @@ hideView = (name)=>
                         borderBottomColor: '#E0E0E0',
                         borderTopColor: '#E0E0E0'
                     }}>
-                        <Text style={styles.textL}>Requester Phone</Text>
-                    </View>
-                    <View style={{
-                        width: width / 2,
-                        borderLeftWidth: 1,
-                        borderLeftColor: '#E0E0E0',
-                        borderTopWidth: 1,
-                        borderBottomWidth: 1,
-                        borderBottomColor: '#E0E0E0',
-                        borderTopColor: '#E0E0E0'
-                    }}>
-                        <Text style={styles.textR}>{this.state.dataSource.noiRequesterPhone}</Text>
+                        <Text style={styles.textR}>{this.state.dataSource.noiRequesterFirstName} {this.state.dataSource.noiRequesterLastName}</Text>
                     </View>
                 </View>
                 <View style={styles.viewTitle}>
@@ -1993,7 +1895,7 @@ hideView = (name)=>
                 </View>
                 <View style={styles.container}>
                     <View style={styles.viewcon}>
-                        <Text style={styles.textL}>Cover By</Text>
+                        <Text style={styles.textL}>Interpreter’s Name</Text>
                     </View>
                     <View style={styles.viewcon}>
                         <Text
@@ -2051,39 +1953,30 @@ hideView = (name)=>
                     </View>
                 </View>
                 <View style={styles.container}>
-                    <View style={styles.viewcon}>
-                        <Text style={styles.textL}>Subject description</Text>
+                    <View style={{
+                        width: width / 2,
+                        borderLeftWidth: 1,
+                        borderLeftColor: '#E0E0E0',
+                        borderTopWidth: 1,
+                        borderBottomWidth: 1,
+                        borderBottomColor: '#E0E0E0',
+                        borderTopColor: '#E0E0E0'
+                    }}>
+                        <Text style={styles.textL}>Appointment Description</Text>
                     </View>
-                    <View style={styles.viewcon}>
+                    <View style={{
+                        width: width / 2,
+                        borderLeftWidth: 1,
+                        borderLeftColor: '#E0E0E0',
+                        borderTopWidth: 1,
+                        borderBottomWidth: 1,
+                        borderBottomColor: '#E0E0E0',
+                        borderTopColor: '#E0E0E0'
+                    }}>
                         <Text style={styles.textR}>{this.state.dataSource.describe}</Text>
                     </View>
                 </View>
-                <View style={styles.container}>
-                    <View style={{
-                        width: width / 2,
-                        borderLeftWidth: 1,
-                        borderLeftColor: '#E0E0E0',
-                        borderTopWidth: 1,
-                        borderBottomWidth: 1,
-                        borderBottomColor: '#E0E0E0',
-                        borderTopColor: '#E0E0E0'
-                    }}>
-                        <Text style={styles.textL}>Appointment Notes</Text>
-                    </View>
-                    <View style={{
-                        width: width / 2,
-                        borderLeftWidth: 1,
-                        borderLeftColor: '#E0E0E0',
-                        borderTopWidth: 1,
-                        borderBottomWidth: 1,
-                        borderBottomColor: '#E0E0E0',
-                        borderTopColor: '#E0E0E0'
-                    }}>
-                        <Text
-                            style={styles.textR}>{this.state.dataSource.subject} {this.state.dataSource.body}</Text>
-                    </View>
-                </View>
-                <View style={{marginBottom: 16}}>
+                <View style={{marginBottom: 2}}>
                     <View style={styles.viewTitle}>
                         <Text style={styles.textTille}>Service Recipient Information</Text>
                     </View>
@@ -2172,6 +2065,14 @@ hideView = (name)=>
 
                         </View>
                     </ScrollView>
+                </View>
+                <View style={{minHeight: 35,
+                    backgroundColor: 'white',
+                    justifyContent: 'center',
+                    marginBottom: 50}}>
+                    <Text style={styles.textTille}>Map</Text>
+                </View>
+                <View style={{flex: 1}}>
                     <View style={{flex: 1, justifyContent: 'flex-end', alignItems: 'flex-end'}}>
                         <View style={{
                             flexDirection: 'row',

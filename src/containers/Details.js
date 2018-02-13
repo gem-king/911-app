@@ -20,10 +20,13 @@ var {height, width} = Dimensions.get('window');
 const DEVICE_WIDTH = Dimensions.get('window').width;
 
 var sizeMap = 0;
+var height = 0
 if (DEVICE_WIDTH >= 500) {
     sizeMap = 70;
+    height = 70;
 } else {
-    sizeMap = 50
+    sizeMap = 50;
+    height = 50;
 }
 
 import {NavigationActions} from 'react-navigation'
@@ -38,7 +41,7 @@ export default class Details extends Component {
                 <TouchableOpacity onPress={() => {
                     navigation.goBack()
                 }}>
-                    <Icon name="ios-arrow-back" size={30} style={{marginLeft: 7}} color="white"></Icon>
+                    <Icon name="ios-arrow-back" size={30} style={{marginLeft: 15}} color="white"></Icon>
                 </TouchableOpacity>
         }
 
@@ -332,14 +335,6 @@ export default class Details extends Component {
         }
     }
 
-    notes(){
-        if(this.state.dataSource.subject != "" && this.state.dataSource.body != ""){
-            return this.state.dataSource.subject+", " +this.state.dataSource.body
-        }else{
-            return null
-        }
-    }
-
     addresss(){
         try{
             if (this.state.dataSource.offSite == true) {
@@ -381,6 +376,7 @@ export default class Details extends Component {
     }
 
     cancel(){
+        const {params} = this.props.navigation.state;
         var nowDate = new Date(Date.now()).getTime();
         // alert("time now" + nowDate)
         var startTime = this.state.dataSource.timeOfService;
@@ -399,7 +395,7 @@ export default class Details extends Component {
                     }}>
                         <View style={{
                             width: 150,
-                            height: 30,
+                            height: height,
                             backgroundColor: '#F44336',
                             justifyContent: 'center',
                             alignItems: 'center',
@@ -469,43 +465,27 @@ export default class Details extends Component {
                         </View>
                     </View>
                     <View style={styles.container}>
-                        <View style={styles.viewcon}>
+                        <View style={{
+                            width: width / 2,
+                            borderLeftWidth: 1,
+                            borderLeftColor: '#E0E0E0',
+                            borderTopWidth: 1,
+                            borderBottomWidth: 1,
+                            borderBottomColor: '#E0E0E0',
+                            borderTopColor: '#E0E0E0'
+                        }}>
                             <Text style={styles.textL}>Requester Name</Text>
                         </View>
-                        <View style={styles.viewcon}>
+                        <View style={{
+                            width: width / 2,
+                            borderLeftWidth: 1,
+                            borderLeftColor: '#E0E0E0',
+                            borderTopWidth: 1,
+                            borderBottomWidth: 1,
+                            borderBottomColor: '#E0E0E0',
+                            borderTopColor: '#E0E0E0'
+                        }}>
                             <Text style={styles.textR}>{this.state.dataSource.noiRequesterFirstName} {this.state.dataSource.noiRequesterLastName}</Text>
-                        </View>
-                    </View>
-                    <View style={styles.container}>
-                        <View style={styles.viewcon}>
-                            <Text style={styles.textL}>Requester Email</Text>
-                        </View>
-                        <View style={styles.viewcon}>
-                            <Text style={styles.textR}>{this.state.dataSource.noiRequesterEmail}</Text>
-                        </View>
-                    </View>
-                    <View style={styles.container}>
-                        <View style={{
-                            width: width / 2,
-                            borderLeftWidth: 1,
-                            borderLeftColor: '#E0E0E0',
-                            borderTopWidth: 1,
-                            borderBottomWidth: 1,
-                            borderBottomColor: '#E0E0E0',
-                            borderTopColor: '#E0E0E0'
-                        }}>
-                            <Text style={styles.textL}>Requester Phone</Text>
-                        </View>
-                        <View style={{
-                            width: width / 2,
-                            borderLeftWidth: 1,
-                            borderLeftColor: '#E0E0E0',
-                            borderTopWidth: 1,
-                            borderBottomWidth: 1,
-                            borderBottomColor: '#E0E0E0',
-                            borderTopColor: '#E0E0E0'
-                        }}>
-                            <Text style={styles.textR}>{this.state.dataSource.noiRequesterPhone}</Text>
                         </View>
                     </View>
 
@@ -637,43 +617,27 @@ export default class Details extends Component {
                         </View>
                     </View>
                     <View style={styles.container}>
-                        <View style={styles.viewcon}>
+                        <View style={{
+                            width: width / 2,
+                            borderLeftWidth: 1,
+                            borderLeftColor: '#E0E0E0',
+                            borderTopWidth: 1,
+                            borderBottomWidth: 1,
+                            borderBottomColor: '#E0E0E0',
+                            borderTopColor: '#E0E0E0'
+                        }}>
                             <Text style={styles.textL}>Requester Name</Text>
                         </View>
-                        <View style={styles.viewcon}>
+                        <View style={{
+                            width: width / 2,
+                            borderLeftWidth: 1,
+                            borderLeftColor: '#E0E0E0',
+                            borderTopWidth: 1,
+                            borderBottomWidth: 1,
+                            borderBottomColor: '#E0E0E0',
+                            borderTopColor: '#E0E0E0'
+                        }}>
                             <Text style={styles.textR}>{this.state.dataSource.noiRequesterFirstName} {this.state.dataSource.noiRequesterLastName}</Text>
-                        </View>
-                    </View>
-                    <View style={styles.container}>
-                        <View style={styles.viewcon}>
-                            <Text style={styles.textL}>Requester Email</Text>
-                        </View>
-                        <View style={styles.viewcon}>
-                            <Text style={styles.textR}>{this.state.dataSource.noiRequesterEmail}</Text>
-                        </View>
-                    </View>
-                    <View style={styles.container}>
-                        <View style={{
-                            width: width / 2,
-                            borderLeftWidth: 1,
-                            borderLeftColor: '#E0E0E0',
-                            borderTopWidth: 1,
-                            borderBottomWidth: 1,
-                            borderBottomColor: '#E0E0E0',
-                            borderTopColor: '#E0E0E0'
-                        }}>
-                            <Text style={styles.textL}>Requester Phone</Text>
-                        </View>
-                        <View style={{
-                            width: width / 2,
-                            borderLeftWidth: 1,
-                            borderLeftColor: '#E0E0E0',
-                            borderTopWidth: 1,
-                            borderBottomWidth: 1,
-                            borderBottomColor: '#E0E0E0',
-                            borderTopColor: '#E0E0E0'
-                        }}>
-                            <Text style={styles.textR}>{this.state.dataSource.noiRequesterPhone}</Text>
                         </View>
                     </View>
                     <View style={styles.viewTitle}>
@@ -689,7 +653,7 @@ export default class Details extends Component {
                     </View>
                     <View style={styles.container}>
                         <View style={styles.viewcon}>
-                            <Text style={styles.textL}>Cover By</Text>
+                            <Text style={styles.textL}>Interpreter’s Name</Text>
                         </View>
                         <View style={styles.viewcon}>
                             <Text style={styles.textR}>{this.state.dataSource.coverByFirstName} {this.state.dataSource.coverByLastName}</Text>
@@ -728,14 +692,6 @@ export default class Details extends Component {
                         </View>
                     </View>
                     <View style={styles.container}>
-                        <View style={styles.viewcon}>
-                            <Text style={styles.textL}>Type of Call</Text>
-                        </View>
-                        <View style={styles.viewcon}>
-                            <Text style={styles.textR}>{this.typeOfCall(this.state.dataSource.callType)}</Text>
-                        </View>
-                    </View>
-                    <View style={styles.container}>
                         <View style={{
                             width: width / 2,
                             borderLeftWidth: 1,
@@ -745,7 +701,7 @@ export default class Details extends Component {
                             borderBottomColor: '#E0E0E0',
                             borderTopColor: '#E0E0E0'
                         }}>
-                            <Text style={styles.textL}>Appointment Notes</Text>
+                            <Text style={styles.textL}>Type of Call</Text>
                         </View>
                         <View style={{
                             width: width / 2,
@@ -757,7 +713,7 @@ export default class Details extends Component {
                             borderTopColor: '#E0E0E0'
                         }}>
                             <Text
-                                style={styles.textR}>{this.notes()}</Text>
+                                style={styles.textR}>{this.typeOfCall(this.state.dataSource.callType)}</Text>
                         </View>
                     </View>
                     <View style={{marginBottom: 16}}>
@@ -875,47 +831,29 @@ export default class Details extends Component {
                         </View>
                     </View>
                     <View style={styles.container}>
-                        <View style={styles.viewcon}>
+                        <View style={{
+                            width: width / 2,
+                            borderLeftWidth: 1,
+                            borderLeftColor: '#E0E0E0',
+                            borderTopWidth: 1,
+                            borderBottomWidth: 1,
+                            borderBottomColor: '#E0E0E0',
+                            borderTopColor: '#E0E0E0'
+                        }}>
                             <Text style={styles.textL}>Requester Name</Text>
                         </View>
-                        <View style={styles.viewcon}>
+                        <View style={{
+                            width: width / 2,
+                            borderLeftWidth: 1,
+                            borderLeftColor: '#E0E0E0',
+                            borderTopWidth: 1,
+                            borderBottomWidth: 1,
+                            borderBottomColor: '#E0E0E0',
+                            borderTopColor: '#E0E0E0'
+                        }}>
                             <Text style={styles.textR}>{this.state.dataSource.noiRequesterFirstName} {this.state.dataSource.noiRequesterLastName}</Text>
                         </View>
                     </View>
-                    <View style={styles.container}>
-                        <View style={styles.viewcon}>
-                            <Text style={styles.textL}>Requester Email</Text>
-                        </View>
-                        <View style={styles.viewcon}>
-                            <Text style={styles.textR}>{this.state.dataSource.noiRequesterEmail}</Text>
-                        </View>
-                    </View>
-                    <View style={styles.container}>
-                        <View style={{
-                            width: width / 2,
-                            borderLeftWidth: 1,
-                            borderLeftColor: '#E0E0E0',
-                            borderTopWidth: 1,
-                            borderBottomWidth: 1,
-                            borderBottomColor: '#E0E0E0',
-                            borderTopColor: '#E0E0E0'
-                        }}>
-                            <Text style={styles.textL}>Requester Phone</Text>
-                        </View>
-                        <View style={{
-                            width: width / 2,
-                            borderLeftWidth: 1,
-                            borderLeftColor: '#E0E0E0',
-                            borderTopWidth: 1,
-                            borderBottomWidth: 1,
-                            borderBottomColor: '#E0E0E0',
-                            borderTopColor: '#E0E0E0'
-                        }}>
-                            <Text style={styles.textR}>{this.state.dataSource.noiRequesterPhone}</Text>
-                        </View>
-                    </View>
-
-
                     <View style={styles.viewTitle}>
                         <Text style={styles.textTille}>Appointment Information</Text>
                     </View>
@@ -929,7 +867,7 @@ export default class Details extends Component {
                     </View>
                     <View style={styles.container}>
                         <View style={styles.viewcon}>
-                            <Text style={styles.textL}>Cover By</Text>
+                            <Text style={styles.textL}>Interpreter’s Name</Text>
                         </View>
                         <View style={styles.viewcon}>
                             <Text style={styles.textR}>{this.state.dataSource.coverByFirstName} {this.state.dataSource.coverByLastName}</Text>
@@ -968,14 +906,6 @@ export default class Details extends Component {
                         </View>
                     </View>
                     <View style={styles.container}>
-                        <View style={styles.viewcon}>
-                            <Text style={styles.textL}>Type of Call</Text>
-                        </View>
-                        <View style={styles.viewcon}>
-                            <Text style={styles.textR}>{this.typeOfCall(this.state.dataSource.callType)}</Text>
-                        </View>
-                    </View>
-                    <View style={styles.container}>
                         <View style={{
                             width: width / 2,
                             borderLeftWidth: 1,
@@ -985,7 +915,7 @@ export default class Details extends Component {
                             borderBottomColor: '#E0E0E0',
                             borderTopColor: '#E0E0E0'
                         }}>
-                            <Text style={styles.textL}>Appointment Notes</Text>
+                            <Text style={styles.textL}>Type of Call</Text>
                         </View>
                         <View style={{
                             width: width / 2,
@@ -997,7 +927,7 @@ export default class Details extends Component {
                             borderTopColor: '#E0E0E0'
                         }}>
                             <Text
-                                style={styles.textR}>{this.notes()}</Text>
+                                style={styles.textR}>{this.typeOfCall(this.state.dataSource.callType)}</Text>
                         </View>
                     </View>
                     <View style={{marginBottom: 16}}>
@@ -1115,47 +1045,29 @@ export default class Details extends Component {
                         </View>
                     </View>
                     <View style={styles.container}>
-                        <View style={styles.viewcon}>
+                        <View style={{
+                            width: width / 2,
+                            borderLeftWidth: 1,
+                            borderLeftColor: '#E0E0E0',
+                            borderTopWidth: 1,
+                            borderBottomWidth: 1,
+                            borderBottomColor: '#E0E0E0',
+                            borderTopColor: '#E0E0E0'
+                        }}>
                             <Text style={styles.textL}>Requester Name</Text>
                         </View>
-                        <View style={styles.viewcon}>
+                        <View style={{
+                            width: width / 2,
+                            borderLeftWidth: 1,
+                            borderLeftColor: '#E0E0E0',
+                            borderTopWidth: 1,
+                            borderBottomWidth: 1,
+                            borderBottomColor: '#E0E0E0',
+                            borderTopColor: '#E0E0E0'
+                        }}>
                             <Text style={styles.textR}>{this.state.dataSource.noiRequesterFirstName} {this.state.dataSource.noiRequesterLastName}</Text>
                         </View>
                     </View>
-                    <View style={styles.container}>
-                        <View style={styles.viewcon}>
-                            <Text style={styles.textL}>Requester Email</Text>
-                        </View>
-                        <View style={styles.viewcon}>
-                            <Text style={styles.textR}>{this.state.dataSource.noiRequesterEmail}</Text>
-                        </View>
-                    </View>
-                    <View style={styles.container}>
-                        <View style={{
-                            width: width / 2,
-                            borderLeftWidth: 1,
-                            borderLeftColor: '#E0E0E0',
-                            borderTopWidth: 1,
-                            borderBottomWidth: 1,
-                            borderBottomColor: '#E0E0E0',
-                            borderTopColor: '#E0E0E0'
-                        }}>
-                            <Text style={styles.textL}>Requester Phone</Text>
-                        </View>
-                        <View style={{
-                            width: width / 2,
-                            borderLeftWidth: 1,
-                            borderLeftColor: '#E0E0E0',
-                            borderTopWidth: 1,
-                            borderBottomWidth: 1,
-                            borderBottomColor: '#E0E0E0',
-                            borderTopColor: '#E0E0E0'
-                        }}>
-                            <Text style={styles.textR}>{this.state.dataSource.noiRequesterPhone}</Text>
-                        </View>
-                    </View>
-
-
                     <View style={styles.viewTitle}>
                         <Text style={styles.textTille}>Appointment Information</Text>
                     </View>
@@ -1169,7 +1081,7 @@ export default class Details extends Component {
                     </View>
                     <View style={styles.container}>
                         <View style={styles.viewcon}>
-                            <Text style={styles.textL}>Cover By</Text>
+                            <Text style={styles.textL}>Interpreter’s Name</Text>
                         </View>
                         <View style={styles.viewcon}>
                             <Text style={styles.textR}>{this.state.dataSource.coverByFirstName} {this.state.dataSource.coverByLastName}</Text>
@@ -1377,43 +1289,27 @@ export default class Details extends Component {
                         </View>
                     </View>
                     <View style={styles.container}>
-                        <View style={styles.viewcon}>
+                        <View style={{
+                            width: width / 2,
+                            borderLeftWidth: 1,
+                            borderLeftColor: '#E0E0E0',
+                            borderTopWidth: 1,
+                            borderBottomWidth: 1,
+                            borderBottomColor: '#E0E0E0',
+                            borderTopColor: '#E0E0E0'
+                        }}>
                             <Text style={styles.textL}>Requester Name</Text>
                         </View>
-                        <View style={styles.viewcon}>
+                        <View style={{
+                            width: width / 2,
+                            borderLeftWidth: 1,
+                            borderLeftColor: '#E0E0E0',
+                            borderTopWidth: 1,
+                            borderBottomWidth: 1,
+                            borderBottomColor: '#E0E0E0',
+                            borderTopColor: '#E0E0E0'
+                        }}>
                             <Text style={styles.textR}>{this.state.dataSource.noiRequesterFirstName} {this.state.dataSource.noiRequesterLastName}</Text>
-                        </View>
-                    </View>
-                    <View style={styles.container}>
-                        <View style={styles.viewcon}>
-                            <Text style={styles.textL}>Requester Email</Text>
-                        </View>
-                        <View style={styles.viewcon}>
-                            <Text style={styles.textR}>{this.state.dataSource.noiRequesterEmail}</Text>
-                        </View>
-                    </View>
-                    <View style={styles.container}>
-                        <View style={{
-                            width: width / 2,
-                            borderLeftWidth: 1,
-                            borderLeftColor: '#E0E0E0',
-                            borderTopWidth: 1,
-                            borderBottomWidth: 1,
-                            borderBottomColor: '#E0E0E0',
-                            borderTopColor: '#E0E0E0'
-                        }}>
-                            <Text style={styles.textL}>Requester Phone</Text>
-                        </View>
-                        <View style={{
-                            width: width / 2,
-                            borderLeftWidth: 1,
-                            borderLeftColor: '#E0E0E0',
-                            borderTopWidth: 1,
-                            borderBottomWidth: 1,
-                            borderBottomColor: '#E0E0E0',
-                            borderTopColor: '#E0E0E0'
-                        }}>
-                            <Text style={styles.textR}>{this.state.dataSource.noiRequesterPhone}</Text>
                         </View>
                     </View>
                     <View style={styles.viewTitle}>
@@ -1429,7 +1325,7 @@ export default class Details extends Component {
                     </View>
                     <View style={styles.container}>
                         <View style={styles.viewcon}>
-                            <Text style={styles.textL}>Cover By</Text>
+                            <Text style={styles.textL}>Interpreter’s Name</Text>
                         </View>
                         <View style={styles.viewcon}>
                             <Text style={styles.textR}>{this.state.dataSource.coverByFirstName} {this.state.dataSource.coverByLastName}</Text>
@@ -1486,38 +1382,30 @@ export default class Details extends Component {
                         </View>
                     </View>
                     <View style={styles.container}>
-                        <View style={styles.viewcon}>
-                            <Text style={styles.textL}>Subject description</Text>
+                        <View style={{
+                            width: width / 2,
+                            borderLeftWidth: 1,
+                            borderLeftColor: '#E0E0E0',
+                            borderTopWidth: 1,
+                            borderBottomWidth: 1,
+                            borderBottomColor: '#E0E0E0',
+                            borderTopColor: '#E0E0E0'
+                        }}>
+                            <Text style={styles.textL}>Appointment Description</Text>
                         </View>
-                        <View style={styles.viewcon}>
+                        <View style={{
+                            width: width / 2,
+                            borderLeftWidth: 1,
+                            borderLeftColor: '#E0E0E0',
+                            borderTopWidth: 1,
+                            borderBottomWidth: 1,
+                            borderBottomColor: '#E0E0E0',
+                            borderTopColor: '#E0E0E0'
+                        }}>
                             <Text style={styles.textR}>{this.state.dataSource.describe}</Text>
                         </View>
                     </View>
-                    <View style={styles.container}>
-                        <View style={{
-                            width: width / 2,
-                            borderLeftWidth: 1,
-                            borderLeftColor: '#E0E0E0',
-                            borderTopWidth: 1,
-                            borderBottomWidth: 1,
-                            borderBottomColor: '#E0E0E0',
-                            borderTopColor: '#E0E0E0'
-                        }}>
-                            <Text style={styles.textL}>Appointment Notes</Text>
-                        </View>
-                        <View style={{
-                            width: width / 2,
-                            borderLeftWidth: 1,
-                            borderLeftColor: '#E0E0E0',
-                            borderTopWidth: 1,
-                            borderBottomWidth: 1,
-                            borderBottomColor: '#E0E0E0',
-                            borderTopColor: '#E0E0E0'
-                        }}>
-                            <Text style={styles.textR}>{this.state.dataSource.subject} {this.state.dataSource.body}</Text>
-                        </View>
-                    </View>
-                    <View style={{marginBottom: 16}}>
+                    <View style={{marginBottom: 2}}>
                         <View style={styles.viewTitle}>
                             <Text style={styles.textTille}>Service Recipient Information</Text>
                         </View>
@@ -1607,23 +1495,30 @@ export default class Details extends Component {
                             </View>
                         </ScrollView>
                     </View>
-                    <View style={{flex: 1, justifyContent: 'flex-end', alignItems: 'flex-end'}}>
-                        <View style={{
-                            flexDirection: 'row',
-                            justifyContent: 'flex-end',
-                            position: 'absolute',
-                            alignItems: 'center',
-                            backgroundColor: 'transparent'
-                        }}>
-                            <TouchableOpacity onPress={() => this.props.navigation.navigate('ViewMap', {
-                                id: this.state.dataSource.coverById,
-                                lo: this.addresss()
-                            })}>
-                                <Image style={{width: sizeMap, height: sizeMap, margin: 16}}
-                                       source={require('../images/map.png')}/>
-                            </TouchableOpacity>
+                    <View style={{minHeight: 35,
+                        backgroundColor: 'white',
+                        justifyContent: 'center',
+                        marginBottom: 50}}>
+                        <Text style={styles.textTille}>Map</Text>
+                    </View>
+                    <View style={{flex: 1}}>
+                        <View style={{flex: 1, justifyContent: 'flex-end', alignItems: 'flex-end'}}>
+                            <View style={{
+                                flexDirection: 'row',
+                                justifyContent: 'flex-end',
+                                position: 'absolute',
+                                alignItems: 'center',
+                                backgroundColor: 'transparent'
+                            }}>
+                                <TouchableOpacity onPress={() => this.props.navigation.navigate('ViewMap', {
+                                    id: this.state.dataSource.coverById,
+                                    lo: this.addresss()
+                                })}>
+                                    <Image style={{width: sizeMap, height: sizeMap, margin: 16}}
+                                           source={require('../images/map.png')}/>
+                                </TouchableOpacity>
+                            </View>
                         </View>
-
                     </View>
                 </View>
             );
